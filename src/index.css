@@ -1,0 +1,484 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Light mode - Claude.ai inspired paper-like aesthetic */
+    --background: 38 30% 96%;
+    --foreground: 24 10% 20%;
+
+    --card: 40 20% 98%;
+    --card-foreground: 24 10% 20%;
+
+    --popover: 40 20% 98%;
+    --popover-foreground: 24 10% 20%;
+
+    --primary: 15 86% 63%;
+    --primary-foreground: 40 20% 98%;
+
+    --secondary: 35 30% 88%;
+    --secondary-foreground: 24 10% 20%;
+
+    --muted: 35 20% 92%;
+    --muted-foreground: 24 10% 45%;
+
+    --accent: 15 86% 63%;
+    --accent-foreground: 40 20% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 40 20% 98%;
+
+    --border: 35 15% 85%;
+    --input: 35 15% 85%;
+    --ring: 15 86% 63%;
+
+    --radius: 0.5rem;
+
+    --terminal-green: 140 50% 45%;
+    --terminal-cyan: 180 60% 40%;
+    --terminal-yellow: 40 80% 50%;
+    --terminal-red: 0 70% 50%;
+    
+    --gradient-warm: linear-gradient(135deg, hsl(15 86% 63% / 0.1), hsl(20 80% 60% / 0.05));
+    --shadow-glow: 0 0 30px hsl(15 86% 63% / 0.2);
+  }
+
+  .dark {
+    /* Dark mode - warm dark palette */
+    --background: 24 15% 12%;
+    --foreground: 38 30% 92%;
+
+    --card: 24 15% 15%;
+    --card-foreground: 38 30% 92%;
+
+    --popover: 24 15% 15%;
+    --popover-foreground: 38 30% 92%;
+
+    --card: 24 15% 15%;
+    --card-foreground: 38 30% 92%;
+
+    --popover: 24 15% 15%;
+    --popover-foreground: 38 30% 92%;
+
+    --primary: 15 86% 63%;
+    --primary-foreground: 24 15% 12%;
+
+    --secondary: 24 15% 20%;
+    --secondary-foreground: 38 30% 92%;
+
+    --muted: 24 15% 18%;
+    --muted-foreground: 38 20% 60%;
+
+    --accent: 15 86% 63%;
+    --accent-foreground: 24 15% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 38 30% 92%;
+
+    --border: 24 15% 22%;
+    --input: 24 15% 22%;
+    --ring: 15 86% 63%;
+
+    --terminal-green: 140 50% 55%;
+    --terminal-cyan: 180 60% 50%;
+    --terminal-yellow: 40 80% 60%;
+    --terminal-red: 0 70% 60%;
+    
+    --gradient-warm: linear-gradient(135deg, hsl(15 86% 63% / 0.15), hsl(20 80% 60% / 0.08));
+    --shadow-glow: 0 0 30px hsl(15 86% 63% / 0.25);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+  }
+}
+
+@layer utilities {
+  .terminal-prompt {
+    @apply text-terminal-green;
+  }
+  
+  .terminal-output {
+    @apply text-terminal-cyan;
+  }
+  
+  .glow-warm {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+  
+  .typing-animation {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end);
+    display: inline-block;
+  }
+  
+  .cursor-blink::after {
+    content: '▊';
+    animation: blink 1s infinite;
+    margin-left: 2px;
+  }
+  
+  /* Window Animation Keyframes */
+  @keyframes minimizeToButton {
+    0% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.1) translate(-200px, 200px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes minimizeToButtonChat {
+    0% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.1) translate(200px, 200px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes minimizeTerminalWithChat {
+    0% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.1) translate(-100px, 150px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes minimizeTerminalWithoutChat {
+    0% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.1) translate(-200px, 300px);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes restoreFromButton {
+    0% {
+      transform: scale(0.1) translate(-200px, 200px);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes restoreFromButtonChat {
+    0% {
+      transform: scale(0.1) translate(200px, 200px);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes restoreTerminalWithChat {
+    0% {
+      transform: scale(0.1) translate(-100px, 150px);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes restoreTerminalWithoutChat {
+    0% {
+      transform: scale(0.1) translate(-200px, 300px);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes maximizeWindow {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes restoreMaximize {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideOut {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  
+  /* Minimized Window Styles */
+  .minimized-window {
+    height: 40px !important;
+    min-height: 40px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    width: fit-content !important;
+    min-width: 350px !important;
+    max-width: 400px !important;
+  }
+  
+  .minimized-window > * {
+    height: 100% !important;
+  }
+  
+  .minimized-window .bg-muted {
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    white-space: nowrap !important;
+  }
+  
+  .minimized-window .flex-1 {
+    display: none !important;
+  }
+  
+  .minimized-window .p-4 {
+    display: none !important;
+  }
+  
+  .minimized-window .border-t {
+    display: none !important;
+  }
+  
+  
+  /* Window Animation Classes */
+  .minimize-animation {
+    animation: minimizeToButton 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .minimize-animation-chat {
+    animation: minimizeToButtonChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .minimize-animation-terminal-with-chat {
+    animation: minimizeTerminalWithChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .minimize-animation-terminal-without-chat {
+    animation: minimizeTerminalWithoutChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .restore-animation {
+    animation: restoreFromButton 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .restore-animation-chat {
+    animation: restoreFromButtonChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .restore-animation-terminal-with-chat {
+    animation: restoreTerminalWithChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .restore-animation-terminal-without-chat {
+    animation: restoreTerminalWithoutChat 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .maximize-animation {
+    animation: maximizeWindow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .restore-maximize-animation {
+    animation: restoreMaximize 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    transform-origin: center center;
+  }
+  
+  .window-slide-in {
+    animation: slideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .window-slide-out {
+    animation: slideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .smooth-transition {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Force animations to work by overriding any conflicting styles */
+  .minimize-animation,
+  .minimize-animation-chat,
+  .minimize-animation-terminal-with-chat,
+  .minimize-animation-terminal-without-chat,
+  .restore-animation,
+  .restore-animation-chat,
+  .restore-animation-terminal-with-chat,
+  .restore-animation-terminal-without-chat,
+  .maximize-animation,
+  .restore-maximize-animation {
+    position: relative;
+    z-index: 9999;
+  }
+  
+  
+  /* Ensure animations are visible during transition */
+  [data-chat-window].minimize-animation-chat,
+  [data-chat-window].restore-animation-chat,
+  [data-chat-window].maximize-animation,
+  [data-chat-window].restore-maximize-animation,
+  [data-terminal-window].minimize-animation,
+  [data-terminal-window].minimize-animation-terminal-with-chat,
+  [data-terminal-window].minimize-animation-terminal-without-chat,
+  [data-terminal-window].restore-animation,
+  [data-terminal-window].restore-animation-terminal-with-chat,
+  [data-terminal-window].restore-animation-terminal-without-chat,
+  [data-terminal-window].maximize-animation,
+  [data-terminal-window].restore-maximize-animation {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Override minimized styles during animations */
+  [data-chat-window].minimize-animation-chat,
+  [data-chat-window].restore-animation-chat,
+  [data-terminal-window].minimize-animation,
+  [data-terminal-window].minimize-animation-terminal-with-chat,
+  [data-terminal-window].minimize-animation-terminal-without-chat,
+  [data-terminal-window].restore-animation,
+  [data-terminal-window].restore-animation-terminal-with-chat,
+  [data-terminal-window].restore-animation-terminal-without-chat {
+    height: auto !important;
+    min-height: 500px !important;
+  }
+  
+  /* Chat window maximize/restore animations */
+  [data-chat-window].maximize-animation {
+    animation: maximizeWindow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+  }
+  
+  [data-chat-window].restore-maximize-animation {
+    animation: restoreMaximize 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+  }
+  
+  /* Terminal window maximize/restore animations - identical to chat */
+  [data-terminal-window].maximize-animation-terminal {
+    animation: maximizeWindow 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+  }
+  
+  [data-terminal-window].restore-maximize-animation-terminal {
+    animation: restoreMaximize 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+  }
+  
+  [data-chat-window].minimize-animation-chat .flex-1,
+  [data-chat-window].restore-animation-chat .flex-1,
+  [data-terminal-window].minimize-animation .flex-1,
+  [data-terminal-window].minimize-animation-terminal-with-chat .flex-1,
+  [data-terminal-window].minimize-animation-terminal-without-chat .flex-1,
+  [data-terminal-window].restore-animation .flex-1,
+  [data-terminal-window].restore-animation-terminal-with-chat .flex-1,
+  [data-terminal-window].restore-animation-terminal-without-chat .flex-1 {
+    display: block !important;
+  }
+  
+  [data-chat-window].minimize-animation-chat .p-4,
+  [data-chat-window].restore-animation-chat .p-4,
+  [data-terminal-window].minimize-animation .p-4,
+  [data-terminal-window].minimize-animation-terminal-with-chat .p-4,
+  [data-terminal-window].minimize-animation-terminal-without-chat .p-4,
+  [data-terminal-window].restore-animation .p-4,
+  [data-terminal-window].restore-animation-terminal-with-chat .p-4,
+  [data-terminal-window].restore-animation-terminal-without-chat .p-4 {
+    display: block !important;
+  }
+  
+  [data-chat-window].minimize-animation-chat .border-t,
+  [data-chat-window].restore-animation-chat .border-t {
+    display: block !important;
+  }
+}
