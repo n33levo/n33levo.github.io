@@ -518,7 +518,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                   <div>▸ Proud dog brother to <button onClick={() => executeCommand('ls ./snowyandpluto/')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">Snowy and Pluto</button>, who debug my life better than I do</div>
                 </TypewriterEffect>
-                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom} onComplete={() => {
+                  setTimeout(() => scrollToBottom(), 100);
+                }}>
                   <div>▸ Perpetually caffeinated, occasionally philosophical</div>
                 </TypewriterEffect>
               </div>
@@ -638,7 +640,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 </div>
               </div>
               
-              <TypewriterEffect delay={30}>
+              <TypewriterEffect delay={30} onComplete={() => {
+                setTimeout(() => scrollToBottom(), 100);
+              }}>
                 <div className="mt-4 p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
                   <div className="text-terminal-yellow font-semibold">📁 More Experiences Available</div>
                   <div className="text-sm mt-1">
@@ -1054,7 +1058,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
     setInput("");
     setHistoryIndex(-1);
     
-    // Force scroll to bottom after command execution
+    // Force scroll to bottom after command execution - minimal delay for simple commands
     setTimeout(() => scrollToBottom(), 50);
   };
 
