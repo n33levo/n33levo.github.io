@@ -12,7 +12,7 @@ const commands = [
   { cmd: "cat achievements.txt", desc: "Awards & achievements" },
   { cmd: "cat education.txt", desc: "Education" },
   { cmd: "cat experience.txt", desc: "Work experience" },
-  { cmd: "cat skills.txt", desc: "Technical skills" },
+  { cmd: "ls ./skills/", desc: "Technical skills" },
   { cmd: "cd projects", desc: "View projects" },
   { cmd: 'open -a "chai chat"', desc: "Open chai chat" },
   { cmd: "pwd", desc: "View directory structure" },
