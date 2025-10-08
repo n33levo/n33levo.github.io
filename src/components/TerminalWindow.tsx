@@ -283,7 +283,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         output = (
           <div className="space-y-2">
             <div className="text-primary font-semibold">Sohail (Neel) Sarkar</div>
-            <div>Applied Mathematics & Computer Science student at the University of Toronto (Expected May 2026).</div>
+            <div>Applied Mathematics & Computer Science student at the University of Toronto (Expected April 2027).</div>
             <div>Passionate about AI/ML, quantitative analysis, and building scalable systems. Classically trained guitarist (Trinity College London).</div>
             <div className="mt-2">Currently working with EO Ventures (NYC) and PSP Investments (Montreal) on AI and quantitative projects.</div>
           </div>
