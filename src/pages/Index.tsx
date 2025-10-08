@@ -263,7 +263,7 @@ const Index = () => {
         <div className="absolute top-0 right-0 z-50">
           <ThemeToggle />
         </div>
-        <h1 className="text-3xl md:text-5xl font-bold text-primary mb-1 typing-animation cursor-blink">
+        <h1 className="text-3xl md:text-6xl font-bold text-primary mb-1 typing-animation cursor-blink">
           Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-xs md:text-sm">
@@ -272,7 +272,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto h-[calc(100vh-130px)]">
+      <div className="max-w-7xl mx-auto h-[calc(100vh-140px)]">
         <div className={`grid gap-6 h-full smooth-transition ${
           isMaximized || isTerminalMaximized 
             ? "grid-cols-1" 
