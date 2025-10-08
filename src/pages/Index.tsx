@@ -264,7 +264,7 @@ const Index = () => {
           <ThemeToggle />
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-primary mb-2 typing-animation cursor-blink">
-          n33l.github.io
+          Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-sm md:text-base">
           Sohail (Neel) Sarkar • Applied Math & CS @ U of T
@@ -340,7 +340,7 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="mt-8 text-center text-muted-foreground text-sm">
-        <p>© 2025 Sohail (Neel) Sarkar • Built with React & Tailwind CSS</p>
+        <p>Built with <span role="img" aria-label="love">❤️</span> by Neel</p>
       </footer>
     </div>
   );
