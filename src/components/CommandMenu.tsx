@@ -8,14 +8,15 @@ interface CommandMenuProps {
 }
 
 const commands = [
-  { cmd: "pwd", desc: "View directory structure" },
-  { cmd: "cat about.txt", desc: "Learn more about me" },
-  { cmd: "cd projects", desc: "View projects" },
-  { cmd: "cd experience", desc: "View experience" },
+  { cmd: "cat about.txt", desc: "About me" },
+  { cmd: "cat achievements.txt", desc: "Awards & achievements" },
+  { cmd: "cat education.txt", desc: "Education" },
+  { cmd: "cat experience.txt", desc: "Work experience" },
   { cmd: "cat skills.txt", desc: "Technical skills" },
-  { cmd: "cat contact.txt", desc: "Get in touch" },
+  { cmd: "cd projects", desc: "View projects" },
+  { cmd: 'open -a "chai chat"', desc: "Open chat application" },
+  { cmd: "pwd", desc: "View directory structure" },
   { cmd: "whereis socials", desc: "View social links" },
-  { cmd: "open -a chaichat", desc: "Open chat application" },
 ];
 
 const CommandMenu = ({ onCommandSelect, onClose, onMinimize, onMaximize }: CommandMenuProps) => {
