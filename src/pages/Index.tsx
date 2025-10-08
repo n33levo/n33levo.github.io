@@ -257,13 +257,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-2 md:p-4">
+    <div className="min-h-screen bg-background p-1 md:p-2">
       {/* Header */}
-      <header className="mb-4 text-center relative">
+      <header className="mb-2 text-center relative">
         <div className="absolute top-0 right-0 z-50">
           <ThemeToggle />
         </div>
-        <h1 className="text-2xl md:text-4xl font-bold text-primary mb-1 typing-animation cursor-blink">
+        <h1 className="text-3xl md:text-5xl font-bold text-primary mb-1 typing-animation cursor-blink">
           Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-xs md:text-sm">
@@ -272,7 +272,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto h-[calc(100vh-140px)]">
+      <div className="max-w-7xl mx-auto h-[calc(100vh-130px)]">
         <div className={`grid gap-6 h-full smooth-transition ${
           isMaximized || isTerminalMaximized 
             ? "grid-cols-1" 
@@ -339,7 +339,7 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 text-center text-muted-foreground text-sm">
+      <footer className="mt-2 text-center text-muted-foreground text-sm">
         <p>Built with <span role="img" aria-label="love">❤️</span> by Neel</p>
       </footer>
     </div>
