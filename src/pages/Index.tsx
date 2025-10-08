@@ -257,22 +257,22 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <div className="min-h-screen bg-background p-2 md:p-4">
       {/* Header */}
-      <header className="mb-8 text-center relative">
+      <header className="mb-4 text-center relative">
         <div className="absolute top-0 right-0 z-50">
           <ThemeToggle />
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-primary mb-2 typing-animation cursor-blink">
+        <h1 className="text-2xl md:text-4xl font-bold text-primary mb-1 typing-animation cursor-blink">
           Neel's Terminal
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base">
+        <p className="text-muted-foreground text-xs md:text-sm">
           Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Applied AI @ Sigma Squared
         </p>
       </header>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto h-[calc(100vh-200px)]">
+      <div className="max-w-7xl mx-auto h-[calc(100vh-140px)]">
         <div className={`grid gap-6 h-full smooth-transition ${
           isMaximized || isTerminalMaximized 
             ? "grid-cols-1" 
