@@ -1,66 +1,128 @@
-# Sohail (Neel) Sarkar - Portfolio & AI Assistant# Welcome to your Lovable project
+# n33levo.github.io# Sohail (Neel) Sarkar - Portfolio & AI Assistant# Welcome to your Lovable project
 
 
 
-An interactive portfolio website featuring a terminal-style interface and an AI-powered chatbot assistant that can answer questions about Sohail's background, projects, and skills.## Project info
+Personal portfolio website with AI-powered chatbot assistant.
 
 
 
-**Live Site**: https://n33l.github.io/**URL**: https://lovable.dev/projects/873ca22f-9461-48e7-9da2-183e53292f95
+**Live Site**: https://n33levo.github.io/An interactive portfolio website featuring a terminal-style interface and an AI-powered chatbot assistant that can answer questions about Sohail's background, projects, and skills.## Project info
 
 
 
-## 🌟 Features## How can I edit this code?
+## 🛠️ Tech Stack
 
 
 
-- **Interactive Terminal Interface**: Navigate through sections using terminal-style commandsThere are several ways of editing your application.
+### Frontend**Live Site**: https://n33l.github.io/**URL**: https://lovable.dev/projects/873ca22f-9461-48e7-9da2-183e53292f95
 
-- **AI Chatbot Assistant**: Powered by GROQ API, trained on Sohail's professional information
+- **React** with TypeScript
 
-- **Real-time Chat**: Ask questions about education, skills, projects, and interests**Use Lovable**
-
-- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
-
-- **Responsive Design**: Works seamlessly on desktop and mobile devicesSimply visit the [Lovable Project](https://lovable.dev/projects/873ca22f-9461-48e7-9da2-183e53292f95) and start prompting.
-
-
-
-## 🏗️ ArchitectureChanges made via Lovable will be committed automatically to this repo.
-
-
-
-### Frontend**Use your preferred IDE**
-
-- **React** with TypeScript for type safety
-
-- **Vite** for fast development and buildingIf you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Vite** for build tooling
 
 - **Tailwind CSS** for styling
 
-- **shadcn/ui** for component libraryThe only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **shadcn/ui** component library## 🌟 Features## How can I edit this code?
 
-- **Deployed on GitHub Pages** at https://n33l.github.io/
+- **JavaScript/TypeScript**
 
-Follow these steps:
+
 
 ### Backend
 
-- **FastAPI** Python backend for API endpoints```sh
+- **Python** with FastAPI framework- **Interactive Terminal Interface**: Navigate through sections using terminal-style commandsThere are several ways of editing your application.
 
-- **GROQ API** integration for AI responses# Step 1: Clone the repository using the project's Git URL.
+- **SQLite** database
 
-- **SQLite** database for chat history and profile datagit clone <YOUR_GIT_URL>
+- **RESTful API** architecture- **AI Chatbot Assistant**: Powered by GROQ API, trained on Sohail's professional information
 
-- **Deployed on Railway** with CORS configured for frontend
+- **CORS** configured for cross-origin requests
 
-# Step 2: Navigate to the project directory.
+- **Real-time Chat**: Ask questions about education, skills, projects, and interests**Use Lovable**
 
-## 🚀 Quick Startcd <YOUR_PROJECT_NAME>
+### Deployment & Infrastructure
+
+- **GitHub Pages** for frontend hosting- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
+
+- **Railway** for backend deployment
+
+- **Git** for version control- **Responsive Design**: Works seamlessly on desktop and mobile devicesSimply visit the [Lovable Project](https://lovable.dev/projects/873ca22f-9461-48e7-9da2-183e53292f95) and start prompting.
 
 
 
-### Prerequisites# Step 3: Install the necessary dependencies.
+### Development Tools
+
+- **ESLint** for code linting
+
+- **TypeScript** for type safety## 🏗️ ArchitectureChanges made via Lovable will be committed automatically to this repo.
+
+- **npm** package management
+
+
+
+## 🚀 Local Development
+
+### Frontend**Use your preferred IDE**
+
+```bash
+
+# Clone repository- **React** with TypeScript for type safety
+
+git clone https://github.com/n33levo/n33levo.github.io.git
+
+- **Vite** for fast development and buildingIf you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+# Install dependencies
+
+cd n33levo.github.io- **Tailwind CSS** for styling
+
+npm install
+
+- **shadcn/ui** for component libraryThe only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+# Start development server
+
+npm run dev- **Deployed on GitHub Pages** at https://n33l.github.io/
+
+```
+
+Follow these steps:
+
+## 📦 Scripts
+
+### Backend
+
+- `npm run dev` - Development server
+
+- `npm run build` - Production build- **FastAPI** Python backend for API endpoints```sh
+
+- `npm run preview` - Preview production build
+
+- `npm run deploy` - Deploy to GitHub Pages- **GROQ API** integration for AI responses# Step 1: Clone the repository using the project's Git URL.
+
+
+
+## 🌐 Features- **SQLite** database for chat history and profile datagit clone <YOUR_GIT_URL>
+
+
+
+- Interactive terminal-style interface- **Deployed on Railway** with CORS configured for frontend
+
+- AI chatbot with conversation capabilities
+
+- Responsive design for all devices# Step 2: Navigate to the project directory.
+
+- Modern UI with smooth animations
+
+- Real-time chat functionality## 🚀 Quick Startcd <YOUR_PROJECT_NAME>
+
+
+
+## 📄 License
+
+
+
+Personal portfolio project. All rights reserved.### Prerequisites# Step 3: Install the necessary dependencies.
 
 - Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)npm i
 
