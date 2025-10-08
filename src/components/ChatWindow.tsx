@@ -18,7 +18,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm your personal AI assistant. I know about Sohail (Neel) Sarkar and can answer questions about his background, interests, and projects. What would you like to know?",
+      text: "Hey, I'm Chai ☕ — your chat buddy living on Neel's site. I vibe with Dostoevsky, Kafka, Nietzsche, Freud, and Marx — Neel's favorites. We can talk about anything… even Neel himself, if you're curious.",
       sender: "ai",
       timestamp: new Date(),
     },

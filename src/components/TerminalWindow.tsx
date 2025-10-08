@@ -120,8 +120,20 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
     const lowerCmd = trimmedCmd.toLowerCase();
     let output: string | JSX.Element = "";
 
+    // Handle greeting commands
+    if (['hi', 'hello', 'hey', 'hiya', 'howdy', 'greetings'].includes(lowerCmd)) {
+      output = (
+        <div className="space-y-2">
+          <div className="text-terminal-yellow">hmm, that's not really a command, please see help, but I am redirecting you to chai just in case</div>
+        </div>
+      );
+      // Auto-open chai chat after showing the message
+      setTimeout(() => {
+        onCommandExecute?.("chat");
+      }, 1000);
+    }
     // Handle full commands
-    if (trimmedCmd === 'open -a "chai chat"' || trimmedCmd === "open -a chai chat") {
+    else if (trimmedCmd === 'open -a "chai chat"' || trimmedCmd === "open -a chai chat") {
       output = (
         <div className="space-y-2">
           <div className="text-primary">💬 Chat application opened!</div>
