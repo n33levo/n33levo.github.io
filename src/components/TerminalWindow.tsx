@@ -157,6 +157,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
             <div><span className="text-terminal-cyan">cat education.txt</span> — Education</div>
             <div><span className="text-terminal-cyan">cat achievements.txt</span> — Awards & achievements</div>
             <div><span className="text-terminal-cyan">whereis socials</span> — View social links</div>
+            <div><span className="text-terminal-cyan">wget resume</span> — Download resume</div>
             <div><span className="text-terminal-cyan">open -a "chai chat"</span> — Open chat application</div>
             <div><span className="text-terminal-cyan">clear</span> — Clear terminal</div>
           </div>
@@ -364,6 +365,26 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
             <div>- International Scholar ($100,000)</div>
             <div>- MRN Scholarship</div>
             <div>- INMC Perfect Score ($1,000)</div>
+          </div>
+        );
+        break;
+
+      case "wget resume":
+        output = (
+          <div className="space-y-1 font-mono text-sm">
+            <div>--2025-10-08 12:34:56--  https://n33levo.github.io/resume.pdf</div>
+            <div>Resolving n33levo.github.io... 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153</div>
+            <div>Connecting to n33levo.github.io|185.199.108.153|:443... connected.</div>
+            <div>HTTP request sent, awaiting response... 200 OK</div>
+            <div>Length: 892KB [application/pdf]</div>
+            <div>Saving to: 'neel_sarkar_resume.pdf'</div>
+            <div></div>
+            <div className="text-terminal-cyan">100%[========================================&gt;] 892KB  --.--KB/s    in 0.1s</div>
+            <div></div>
+            <div>'neel_sarkar_resume.pdf' saved</div>
+            <div></div>
+            <div className="text-primary">📄 Resume downloaded successfully!</div>
+            <div className="text-terminal-yellow">🔗 Direct link: <a href="https://n33levo.github.io/resume.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">https://n33levo.github.io/resume.pdf</a></div>
           </div>
         );
         break;
