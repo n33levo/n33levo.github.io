@@ -267,7 +267,7 @@ const Index = () => {
           Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-sm md:text-base">
-          Sohail (Neel) Sarkar • Applied Math & CS @ U of T
+          Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Applied AI @ Sigma Squared
         </p>
       </header>
 

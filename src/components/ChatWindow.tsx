@@ -11,7 +11,8 @@ interface Message {
   id: number;
   text: string;
   sender: "user" | "ai";
-  timestamp: Date;
+  timestamp?: Date;
+  isStreaming?: boolean;
 }
 
 const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
@@ -34,12 +35,13 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessageToAPI = async (message: string): Promise<string> => {
+  const sendMessageToAPIStream = async (message: string, onChunk: (chunk: string) => void): Promise<void> => {
     try {
-      const response = await fetch('https://neel-chatbot-backend-production.up.railway.app/chat', {
+      const response = await fetch('https://neel-chatbot-backend-production.up.railway.app/chat/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
         },
         body: JSON.stringify({
           message: message,
@@ -51,11 +53,54 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      return data.response;
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('No reader available');
+      }
+
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (line.trim().startsWith('data: ')) {
+              try {
+                const jsonStr = line.trim().slice(6);
+                if (jsonStr) {
+                  const data = JSON.parse(jsonStr);
+                  if (data.error) {
+                    onChunk(data.error);
+                    return;
+                  }
+                  if (data.content) {
+                    onChunk(data.content);
+                    // Add a small delay to make streaming more visible
+                    await new Promise(resolve => setTimeout(resolve, 20));
+                  }
+                  if (data.done) {
+                    return;
+                  }
+                }
+              } catch (e) {
+                console.error('Error parsing chunk:', e, 'Line:', line);
+              }
+            }
+          }
+        }
+      } finally {
+        reader.releaseLock();
+      }
     } catch (error) {
-      console.error('Error sending message to API:', error);
-      return "Sorry, I'm having trouble connecting to the server. Please check your internet connection.";
+      console.error('Error streaming message:', error);
+      onChunk("Sorry, I'm having trouble connecting to the server. Please check your internet connection.");
     }
   };
 
@@ -78,23 +123,42 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
         textareaRef.current.style.height = '40px';
       }
 
+      // Create AI message placeholder without timestamp
+      const aiMessageId = Date.now() + 1;
+      const aiMessage: Message = {
+        id: aiMessageId,
+        text: "",
+        sender: "ai",
+        isStreaming: true,
+      };
+      setMessages(prev => [...prev, aiMessage]);
+
       try {
-        const aiResponse = await sendMessageToAPI(userMessage);
-        const aiMessage: Message = {
-          id: Date.now() + 1,
-          text: aiResponse,
-          sender: "ai",
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, aiMessage]);
+        await sendMessageToAPIStream(userMessage, (chunk: string) => {
+          setMessages(prev => prev.map(msg => 
+            msg.id === aiMessageId 
+              ? { ...msg, text: msg.text + chunk }
+              : msg
+          ));
+        });
+        
+        // Add timestamp when streaming is complete
+        setMessages(prev => prev.map(msg => 
+          msg.id === aiMessageId 
+            ? { ...msg, timestamp: new Date(), isStreaming: false }
+            : msg
+        ));
       } catch (error) {
-        const errorMessage: Message = {
-          id: Date.now() + 1,
-          text: "Sorry, I encountered an error. Please try again.",
-          sender: "ai",
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, errorMessage]);
+        setMessages(prev => prev.map(msg => 
+          msg.id === aiMessageId 
+            ? { 
+                ...msg, 
+                text: "Sorry, I encountered an error. Please try again.",
+                timestamp: new Date(),
+                isStreaming: false
+              }
+            : msg
+        ));
       } finally {
         setIsLoading(false);
       }
@@ -151,9 +215,11 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
               }`}
             >
               <div className="text-sm whitespace-pre-wrap">{message.text}</div>
-              <div className="text-xs opacity-70 mt-1">
-                {message.timestamp.toLocaleTimeString()}
-              </div>
+              {message.timestamp && (
+                <div className="text-xs opacity-70 mt-1">
+                  {message.timestamp.toLocaleTimeString()}
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -162,7 +228,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
             <div className="bg-muted text-foreground px-3 py-2 rounded-lg">
               <div className="flex items-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-foreground"></div>
-                <span className="text-sm">Thinking...</span>
+                <span className="text-sm">Streaming...</span>
               </div>
             </div>
           </div>
