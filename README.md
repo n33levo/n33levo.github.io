@@ -16,7 +16,3 @@
 - API Integration: GROQ API for AI responses
 - Deployment: Railway
 - CORS: Configured for cross-origin requests from the frontend
-
-### Development Tools
-- Package Management: npm
-- Linting: ESLint with TypeScript support
