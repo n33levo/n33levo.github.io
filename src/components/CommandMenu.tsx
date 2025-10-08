@@ -14,7 +14,7 @@ const commands = [
   { cmd: "cat experience.txt", desc: "Work experience" },
   { cmd: "cat skills.txt", desc: "Technical skills" },
   { cmd: "cd projects", desc: "View projects" },
-  { cmd: 'open -a "chai chat"', desc: "Open chat application" },
+  { cmd: 'open -a "chai chat"', desc: "Open chai chat" },
   { cmd: "pwd", desc: "View directory structure" },
   { cmd: "whereis socials", desc: "View social links" },
 ];
