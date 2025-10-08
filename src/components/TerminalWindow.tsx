@@ -42,6 +42,94 @@ const directoryStructure = {
   },
 };
 
+const WgetProgressAnimation = () => {
+  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(0);
+  const [showFinalMessage, setShowFinalMessage] = useState(false);
+
+  useEffect(() => {
+    const steps = [
+      { delay: 300, nextStep: 1 },    // Show initial lines
+      { delay: 500, nextStep: 2 },    // Show connecting
+      { delay: 400, nextStep: 3 },    // Show HTTP response
+      { delay: 300, nextStep: 4 },    // Show saving to
+      { delay: 100, nextStep: 5 },    // Start progress bar
+    ];
+
+    if (step < steps.length) {
+      const timer = setTimeout(() => {
+        setStep(steps[step].nextStep);
+      }, steps[step].delay);
+      return () => clearTimeout(timer);
+    }
+
+    // Animate progress bar
+    if (step === 5) {
+      const progressTimer = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(progressTimer);
+            setTimeout(() => {
+              setShowFinalMessage(true);
+            }, 200);
+            return 100;
+          }
+          return prev + 2;
+        });
+      }, 30);
+      return () => clearInterval(progressTimer);
+    }
+  }, [step]);
+
+  const generateProgressBar = (progress: number) => {
+    const barLength = 40;
+    const filledLength = Math.floor((progress / 100) * barLength);
+    const filled = '='.repeat(filledLength);
+    const arrow = progress < 100 ? '>' : '';
+    const empty = ' '.repeat(barLength - filledLength - (arrow ? 1 : 0));
+    return `${progress.toFixed(0)}%[${filled}${arrow}${empty}]`;
+  };
+
+  return (
+    <div className="space-y-1 font-mono text-sm">
+      {step >= 1 && (
+        <>
+          <div>--2025-10-08 12:34:56--  https://n33levo.github.io/resume.pdf</div>
+          <div>Resolving n33levo.github.io... 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153</div>
+        </>
+      )}
+      {step >= 2 && (
+        <div>Connecting to n33levo.github.io|185.199.108.153|:443... connected.</div>
+      )}
+      {step >= 3 && (
+        <>
+          <div>HTTP request sent, awaiting response... 200 OK</div>
+          <div>Length: 892KB [application/pdf]</div>
+        </>
+      )}
+      {step >= 4 && (
+        <>
+          <div>Saving to: 'neel_sarkar_resume.pdf'</div>
+          <div></div>
+        </>
+      )}
+      {step >= 5 && (
+        <div className="text-terminal-cyan">
+          {generateProgressBar(progress)} 892KB  --.--KB/s    in 0.1s
+        </div>
+      )}
+      {showFinalMessage && (
+        <>
+          <div></div>
+          <div>'sohail_sarkar_resume.pdf' saved</div>
+          <div></div>
+          <div className="text-primary"> Resume downloaded successfully!</div>
+        </>
+      )}
+    </div>
+  );
+};
+
 const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted, onClose, onMinimize, onMaximize }: TerminalWindowProps) => {
   const [input, setInput] = useState("");
   const [expandedDirs, setExpandedDirs] = useState<Set<string>>(new Set());
@@ -370,23 +458,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         break;
 
       case "wget resume":
-        output = (
-          <div className="space-y-1 font-mono text-sm">
-            <div>--2025-10-08 12:34:56--  https://n33levo.github.io/resume.pdf</div>
-            <div>Resolving n33levo.github.io... 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153</div>
-            <div>Connecting to n33levo.github.io|185.199.108.153|:443... connected.</div>
-            <div>HTTP request sent, awaiting response... 200 OK</div>
-            <div>Length: 892KB [application/pdf]</div>
-            <div>Saving to: 'neel_sarkar_resume.pdf'</div>
-            <div></div>
-            <div className="text-terminal-cyan">100%[========================================&gt;] 892KB  --.--KB/s    in 0.1s</div>
-            <div></div>
-            <div>'neel_sarkar_resume.pdf' saved</div>
-            <div></div>
-            <div className="text-primary">📄 Resume downloaded successfully!</div>
-            <div className="text-terminal-yellow">🔗 Direct link: <a href="https://n33levo.github.io/resume.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">https://n33levo.github.io/resume.pdf</a></div>
-          </div>
-        );
+        output = <WgetProgressAnimation />;
         break;
 
       case "clear":
