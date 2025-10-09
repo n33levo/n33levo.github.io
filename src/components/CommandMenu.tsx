@@ -9,14 +9,15 @@ interface CommandMenuProps {
 
 const commands = [
   { cmd: "cat about.txt", desc: "About me" },
-  { cmd: "cat achievements.txt", desc: "Awards & achievements" },
-  { cmd: "cat education.txt", desc: "Education" },
   { cmd: "cat experience.txt", desc: "Work experience" },
+  { cmd: "cat education.txt", desc: "Education" },
+  { cmd: "cat achievements.txt", desc: "Awards & achievements" },
   { cmd: "ls ./skills/", desc: "Technical skills" },
   { cmd: "cd projects", desc: "View projects" },
   { cmd: 'open -a "chai chat"', desc: "Open chai chat" },
-  { cmd: "pwd", desc: "View directory structure" },
+  { cmd: "wget resume", desc: "Download resume" },
   { cmd: "whereis socials", desc: "View social links" },
+  { cmd: "pwd", desc: "View directory structure" },
 ];
 
 const CommandMenu = ({ onCommandSelect, onClose, onMinimize, onMaximize }: CommandMenuProps) => {
@@ -50,28 +51,28 @@ const CommandMenu = ({ onCommandSelect, onClose, onMinimize, onMaximize }: Comma
       </div>
 
       {/* Commands List */}
-      <div className="flex-1 p-6 overflow-y-auto">
-        <h2 className="text-primary text-lg font-bold mb-4">Try these commands:</h2>
-        <div className="space-y-3">
+      <div className="flex-1 p-3 overflow-y-auto">
+        <h2 className="text-primary text-base font-bold mb-2">Try these commands:</h2>
+        <div className="space-y-1.5">
           {commands.map((item, index) => (
             <button
               key={index}
               onClick={() => handleCommandClick(item.cmd)}
-              className="w-full text-left p-3 rounded border border-border hover:border-primary hover:bg-primary/5 transition-all group"
+              className="w-full text-left p-2 rounded border border-border hover:border-primary hover:bg-primary/5 transition-all group"
             >
               <div className="text-terminal-cyan font-mono text-sm group-hover:text-primary transition-colors">
                 {item.cmd}
               </div>
-              <div className="text-muted-foreground text-xs mt-1">
+              <div className="text-muted-foreground text-xs mt-0.5">
                 {item.desc}
               </div>
             </button>
           ))}
         </div>
 
-        <div className="mt-8 p-4 border border-border rounded bg-muted/30">
-          <div className="text-primary font-semibold mb-2">💡 Pro Tip</div>
-          <div className="text-sm text-muted-foreground">
+        <div className="mt-4 p-3 border border-border rounded bg-muted/30">
+          <div className="text-primary font-semibold mb-1 text-sm">💡 Pro Tip</div>
+          <div className="text-xs text-muted-foreground">
             Click any command to run it in the terminal! You can also type commands directly. Use arrow keys ↑↓ to navigate command history.
           </div>
         </div>
