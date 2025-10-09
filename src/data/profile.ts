@@ -80,9 +80,9 @@ export const experiences: ExperienceItem[] = [
     logoAlt: "Sigma Squared Logo",
     bullets: [
       "Working on data platforms with EO Ventures and ML systems at Sigma Squared.",
-      "Currently engineering an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction.",
-      "Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping.",
-      "Co-authoring proprietary research in econometric-based performance clustering and calibration.",
+      "Engineered an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction reduced variance by 27%, & RMSE by 8% (5-fold CV).",
+      "Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping, scaling 50+ workflows across research pipelines.",
+      "Co-authoring proprietary research on econometric-based performance clustering and calibration.",
     ],
   },
   {
@@ -94,8 +94,8 @@ export const experiences: ExperienceItem[] = [
     logoAlt: "PSP Investments Logo",
     bullets: [
       "Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.",
-      "Reinforced processing with claimification-based cross-referencing for all answers, achieving 100% factual accuracy.",
-      "Contributed layers in the neural retriever, cutting batch inference time from 20 min to 3 min.",
+      "Reinforced processing with claimification-based cross-referencing for all answering achieving 100% factual accuracy.",
+      "Built Scala layers in neural retrievers for preprocessing & learned query routing cutting batch inference 20→3 min.",
     ],
   },
   {
@@ -106,8 +106,8 @@ export const experiences: ExperienceItem[] = [
     logoSrc: "/university_of_toronto_logo.png",
     logoAlt: "University of Toronto Logo",
     bullets: [
-      "Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases.",
-      "Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat interfaces.",
+      "Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases, cut release lead-time by 60% (5d→2d).",
+      "Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat.",
       "Exposed library GPU cluster via REST control plane for LLM fine-tuning with job scheduling and telemetry.",
     ],
   },
@@ -119,8 +119,8 @@ export const experiences: ExperienceItem[] = [
     logoSrc: "/ejpratt_logo.png",
     logoAlt: "E.J. Pratt Institute Logo",
     bullets: [
-      "Developed version-controlled scheduling system with Random Forest allocator using performance metrics.",
-      "Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management.",
+      "Developed version control scheduling system with an optimised Random Forest allocator 6× faster allocation & 12% more coverage.",
+      "Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management which reduced IT desk resolution time by 40% (3d→1.8d).",
     ],
   },
 ];

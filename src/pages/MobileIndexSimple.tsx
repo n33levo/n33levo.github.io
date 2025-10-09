@@ -137,7 +137,7 @@ const MobileIndexSimple = () => {
               onClick={() => navigate("/ai")}
               className="rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"
             >
-              Launch Chai
+              Launch AI Rep
             </button>
           </div>
           <div className="space-y-4">
