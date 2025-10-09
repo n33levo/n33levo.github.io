@@ -17,7 +17,20 @@
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="module" crossorigin src="/assets/index-BVu-dEMG.js"></script>
+    <script>
+      (function () {
+        try {
+          const redirect = sessionStorage.getItem("redirect");
+          if (redirect) {
+            sessionStorage.removeItem("redirect");
+            history.replaceState(null, null, redirect);
+          }
+        } catch (error) {
+          // If storage isn't available, fall back gracefully.
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-Bwuq__hS.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-Ckj95Cuk.css">
   </head>
 

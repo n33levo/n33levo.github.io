@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <script>
+      (function () {
+        var redirectPath = window.location.pathname + window.location.search + window.location.hash;
+        try {
+          sessionStorage.setItem("redirect", redirectPath);
+        } catch (error) {
+          // ignore storage errors (private browsing, etc.)
+        }
+        window.location.replace("/");
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
