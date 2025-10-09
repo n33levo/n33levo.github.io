@@ -40,7 +40,7 @@ const MobileIndexSimple = () => {
         </p>
         <h1 className="text-3xl font-bold text-primary">Neel&apos;s Mobile Terminal</h1>
         <p className="text-sm text-muted-foreground">
-          Crafted for phones — same stories, easier reading.
+          Crafted for phone for easier reading. Experience terminal in full-screen.
         </p>
       </header>
 

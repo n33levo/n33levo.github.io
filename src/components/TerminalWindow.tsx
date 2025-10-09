@@ -73,7 +73,7 @@ const ImageLoader = ({ src, alt, className, delay = 200, onLoad, scrollToBottom 
   
   if (!isLoaded) {
     return <div className={`${className} bg-muted animate-pulse flex items-center justify-center`}>
-      <span className="text-xs text-muted-foreground">Loading...</span>
+      <span className="text-[8px] text-muted-foreground opacity-60">Loading...</span>
     </div>;
   }
   
@@ -264,7 +264,7 @@ const WgetProgressAnimation = () => {
       {showFinalMessage && (
         <>
           <div></div>
-          <div>'sohail_sarkar_resume.pdf' saved</div>
+          <div>'neel_sarkar_resume.pdf' saved</div>
           <div></div>
           <div className="text-primary"> Resume downloaded successfully!</div>
         </>
@@ -444,35 +444,35 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
       case "pwd":
         output = (
           <div className="space-y-1">
-            <div className="text-terminal-green">~ / neel / portfolio</div>
-            <div className="text-sm mt-2 font-mono">
+            <div className="text-terminal-green text-sm">~ / neel / portfolio</div>
+            <div className="text-xs mt-1 font-mono leading-tight">
               <div>.</div>
               <div>├── <span className="text-terminal-cyan">Applications/</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>└── chai chat.app</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>└── chai chat.app</span></div>
               <div>├── about.txt</div>
               <div>├── achievements.txt</div>
               <div>├── activities.txt</div>
               <div>├── <span className="text-terminal-cyan">archives/</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>└── old_experience.txt</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>└── old_experience.txt</span></div>
               <div>├── education.txt</div>
               <div>├── experience.txt</div>
               <div>├── <span className="text-terminal-cyan">projects/</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── modified-sir</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── ocr-digitizer</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── reccomendation-engine</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>└── stock-analysis-llm</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── modified-sir</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── ocr-digitizer</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── reccomendation-engine</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>└── stock-analysis-llm</span></div>
               <div>├── <span className="text-terminal-cyan">skills/</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── ai_ml</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── databases</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── devtools</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── frameworks</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>├── languages</span></div>
-              <div>│<span style={{paddingLeft: '50px'}}>└── other</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── ai_ml</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── databases</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── devtools</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── frameworks</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── languages</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>└── other</span></div>
               <div>└── <span className="text-terminal-cyan">socials/</span></div>
-              <div><span style={{paddingLeft: '57px'}}>├── email</span></div>
-              <div><span style={{paddingLeft: '57px'}}>├── github</span></div>
-              <div><span style={{paddingLeft: '57px'}}>├── instagram</span></div>
-              <div><span style={{paddingLeft: '57px'}}>└── linkedin</span></div>
+              <div><span style={{paddingLeft: '35px'}}>├── email</span></div>
+              <div><span style={{paddingLeft: '35px'}}>├── github</span></div>
+              <div><span style={{paddingLeft: '35px'}}>├── instagram</span></div>
+              <div><span style={{paddingLeft: '35px'}}>└── linkedin</span></div>
             </div>
           </div>
         );
@@ -532,6 +532,15 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         output = (
           <div className="space-y-3">
             <div className="text-primary font-semibold">Projects</div>
+            <div className="mt-4 p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
+              <div className="text-muted-foreground text-sm">
+                I mostly code to make my life easier — automating the boring stuff before it automates me. 
+                Not many public repos (yet), because I build faster than I document, and most development 
+                this past year has lived in private, company-owned repos via corporate GitHub accounts(No access to them anymore).
+                <br /><br />
+                <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
+              </div>
+            </div>
             <div>
               <div className="text-terminal-cyan">stock-llm.txt</div>
               <div className="text-muted-foreground ml-4">Fine-Tuned Stock Analysis LLM (Bayesian-LoRA, PyTorch, PEFT, BitsAndBytes 4-bit).</div>
@@ -577,7 +586,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                     <div className="ml-4 mt-1 text-sm">- Working on data platforms with EO Ventures and ML systems at Sigma Squared.</div>
-                    <div className="ml-4 text-sm">- Engineering agentic EDA-to-ETL pipeline, ensembling CatBoost with TabPFN for SWE-error prediction.</div>
+                    <div className="ml-4 text-sm">- Currently engineering an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction.</div>
                     <div className="ml-4 text-sm">- Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping.</div>
                     <div className="ml-4 text-sm">- Co-authoring proprietary research in econometric-based performance clustering and calibration.</div>
                   </TypewriterEffect>
@@ -597,8 +606,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                     <div className="ml-4 mt-1 text-sm">- Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.</div>
-                    <div className="ml-4 text-sm">- Reinforced processing with claimification-based cross-referencing, achieving 100% factual accuracy.</div>
-                    <div className="ml-4 text-sm">- Contributed layers in neural retriever, cutting batch inference time from 20 min → 3 min.</div>
+                    <div className="ml-4 text-sm">- Reinforced processing with claimification-based cross-referencing for all answers, achieving 100% factual accuracy.</div>
+                    <div className="ml-4 text-sm">- Contributed layers in the neural retriever, cutting batch inference time from 20 min to 3 min.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -635,7 +644,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                     <div className="ml-4 mt-1 text-sm">- Developed version-controlled scheduling system with Random Forest allocator using performance metrics.</div>
-                    <div className="ml-4 text-sm">- Shipped OAuth-secured ticketing system for IT desk backed by MongoDB persistence and Redis sessions.</div>
+                    <div className="ml-4 text-sm">- Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -713,7 +722,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
             <div className="border border-terminal-cyan rounded-md p-4 bg-card/50 space-y-3">
               <TypewriterEffect delay={30}>
                 <div className="text-primary font-semibold">📁 Archived Experiences</div>
-                <div className="text-sm text-muted-foreground">Non-internship roles and older experiences</div>
+                <div className="text-sm text-muted-foreground">Non-internship experiences</div>
               </TypewriterEffect>
               
               <div className="flex items-start space-x-3">
@@ -724,12 +733,12 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 />
                 <div className="flex-1">
                   <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
-                    <div className="text-terminal-cyan font-semibold">Virtual Data Science Fellow, JP Morgan Chase</div>
+                    <div className="text-terminal-cyan font-semibold">Virtual Data Science Fellow, JP Morgan Chase @ Forage</div>
                     <div className="text-muted-foreground">Remote — May 2022–Aug 2022</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20}>
-                    <div className="ml-4 mt-1 text-sm">- Risk analytics dashboard with Python, Spark, scikit-learn; XGBoost for vol forecasting; Kafka streaming; D3.js visualizations.</div>
-                    <div className="ml-4 text-sm">- Real-time feeds + Perspective for trader-facing live graphs.</div>
+                    <div className="ml-4 mt-1 text-sm">- Collaborated with a team of 5 to architect and implement a risk analytics dashboard using Python, Apache Spark, and sci-kit-learn. Leveraged an XGBoost model for market volatility forecasting, integrated Apache Kafka for real-time data streaming, and developed visualizations with D3.js to support data-driven trading strategies.</div>
+                    <div className="ml-4 text-sm">- Interfaced with real-time financial data feeds and a fixed client-side web application, utilizing Perspective to generate live, visually strategic graphs that display market data for traders.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -743,10 +752,10 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 <div className="flex-1">
                   <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                     <div className="text-terminal-cyan font-semibold">Tier 1 IT Advisor, University of Toronto IT Help Desk</div>
-                    <div className="text-muted-foreground">Toronto, ON — Sept 2022–Aug 2024</div>
+                    <div className="text-muted-foreground">Toronto, ON — Sept 2022–Present</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20}>
-                    <div className="ml-4 mt-1 text-sm">- Account management with Microsoft Entra ID; Win/Linux/Mac/AV/VoIP support; ServiceNow ticketing & docs.</div>
+                    <div className="ml-4 mt-1 text-sm">- Managed accounts for a diverse user base utilizing the UofT database and Microsoft Entra ID. Provided technical and software support for Win, Linux, Mac, AV devices, and VoIP systems. Managed tickets & documentation on ServiceNow. .</div>
                   </TypewriterEffect>
                 </div>
               </div>
