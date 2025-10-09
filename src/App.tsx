@@ -25,7 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<ResponsiveIndex />} />
             <Route path="/mobile" element={<MobileIndexSimple />} />
-            <Route path="/chai" element={<Chai />} />
+            <Route path="/ai" element={<Chai />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

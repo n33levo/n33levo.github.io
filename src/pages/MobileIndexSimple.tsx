@@ -134,7 +134,7 @@ const MobileIndexSimple = () => {
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-primary">Projects</h2>
             <button
-              onClick={() => navigate("/chai")}
+              onClick={() => navigate("/ai")}
               className="rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"
             >
               Launch Chai
@@ -189,4 +189,3 @@ const MobileIndexSimple = () => {
 };
 
 export default MobileIndexSimple;
-

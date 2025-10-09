@@ -550,8 +550,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 <SkillItem skill="PEFT" />
                 <SkillItem skill="CUDA" />
               </div>
-              <div className="text-muted-foreground ml-4">→ Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA GPU)</div>
-              <div className="text-muted-foreground ml-4">→ Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead..</div>
+              <div className="text-muted-foreground ml-4">→ Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA).</div>
+              <div className="text-muted-foreground ml-4">→ Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead.</div>
             </div>
             <div>
               <div className="text-terminal-cyan">Recommendation Engine — Mar 2024</div>

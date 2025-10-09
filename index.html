@@ -17,6 +17,19 @@
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function () {
+        try {
+          const redirect = sessionStorage.getItem("redirect");
+          if (redirect) {
+            sessionStorage.removeItem("redirect");
+            history.replaceState(null, null, redirect);
+          }
+        } catch (error) {
+          // If storage isn't available, fall back gracefully.
+        }
+      })();
+    </script>
   </head>
 
   <body>
