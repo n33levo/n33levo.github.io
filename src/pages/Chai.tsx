@@ -63,7 +63,7 @@ const Chai = () => {
           ← Back
         </button>
         <div className="mt-4 space-y-1 text-center">
-          <h1 className="text-3xl font-bold text-primary">Neel&apos;s AI Rep</h1>
+          <h1 className="text-3xl font-bold text-primary">Neel&apos;s LLM Rep</h1>
           <p className="text-sm text-muted-foreground">
             A dedicated space for recruiters to ask questions to and about Neel.
           </p>
