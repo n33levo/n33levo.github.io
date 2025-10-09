@@ -80,7 +80,7 @@ export const experiences: ExperienceItem[] = [
     logoAlt: "Sigma Squared Logo",
     bullets: [
       "Working on data platforms with EO Ventures and ML systems at Sigma Squared.",
-      "Engineering agentic EDA-to-ETL pipeline, ensembling CatBoost with TabPFN for SWE-error prediction.",
+      "Currently engineering an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction.",
       "Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping.",
       "Co-authoring proprietary research in econometric-based performance clustering and calibration.",
     ],
@@ -94,8 +94,8 @@ export const experiences: ExperienceItem[] = [
     logoAlt: "PSP Investments Logo",
     bullets: [
       "Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.",
-      "Reinforced processing with claimification-based cross-referencing, achieving 100% factual accuracy.",
-      "Contributed layers in neural retriever, cutting batch inference time from 20 min → 3 min.",
+      "Reinforced processing with claimification-based cross-referencing for all answers, achieving 100% factual accuracy.",
+      "Contributed layers in the neural retriever, cutting batch inference time from 20 min to 3 min.",
     ],
   },
   {
@@ -120,7 +120,7 @@ export const experiences: ExperienceItem[] = [
     logoAlt: "E.J. Pratt Institute Logo",
     bullets: [
       "Developed version-controlled scheduling system with Random Forest allocator using performance metrics.",
-      "Shipped OAuth-secured ticketing system for IT desk backed by MongoDB persistence and Redis sessions.",
+      "Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management.",
     ],
   },
 ];
@@ -136,7 +136,7 @@ export const education: EducationItem[] = [
   },
   {
     institution: "Trinity College",
-    location: "Toronto, ON",
+    location: "London, England",
     details: "ACTL Classical Guitar — June 2021",
     logoSrc: "/trinity_college_london_logo.png",
     logoAlt: "Trinity College Logo",
@@ -146,35 +146,34 @@ export const education: EducationItem[] = [
 export const projects: ProjectItem[] = [
   {
     id: "stock-llm",
-    filename: "stock-llm.txt",
+    filename: "Fine-Tuned Stock Analysis LLM — Nov 2024",
     description: [
-      "Fine-Tuned Stock Analysis LLM (Bayesian-LoRA, PyTorch, PEFT, BitsAndBytes 4-bit).",
-      "Trained on market reports, earnings transcripts, SEC filings.",
-      "Implemented gated Bayesian rank selection to adapt per layer and reduce memory overhead.",
+      "Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA GPU)",
+      "Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead.",
     ],
   },
   {
     id: "recsys",
-    filename: "recsys.txt",
+    filename: "Recommendation Engine — Mar 2024",
     description: [
-      "Movie recommendation engine (PyTorch + Neo4j); matrix-factorization embeddings from watch/rating/review data.",
-      "Scraping via bs4/Selenium; Dockerized; Phase 2 on AWS ECS + Kubernetes; Ruby on Rails UI.",
+      "Built a hybrid recommender: implicit-feedback ALS on watch history combined with content/graph signals from a Neo4j knowledge graph (genre, director, actors, keywords), fused with a learned re-ranker.",
+      "Containerized a FastAPI inference service and Dagster training/refresh pipelines; deployed on AWS EKS (Kubernetes) with autoscaled endpoints (Docker) for scalable and low-latency recommendation delivery.",
     ],
   },
   {
     id: "ocr-digitizer",
-    filename: "ocr-digitizer.txt",
+    filename: "OCR Digitizer Automation — May 2023",
     description: [
-      "OCR automation with TensorFlow/Keras (C# via TensorFlow.NET); PostgreSQL storage; Pandas/Excel pipelines.",
-      "Licensed to law & supply-chain firms; ~$35,000 total sales.",
+      "Developed a Windows desktop app with a CRNN-style OCR (CNN → BiLSTM → CTC) and beam-search decoding, plus layout segmentation and post-processing (normalization, de-duplication, schema validation); wrote normalized records to PostgreSQL and exported QA/exception reports via Pandas/Excel.",
+      "Licensed as on-premise/per-seat software; generated USD 35,000 in sales by licensing to legal and supply-chain firms around North-Bengal.",
     ],
   },
   {
     id: "modified-sir",
-    filename: "modified-sir.txt",
+    filename: "Modified SIR — Feb 2022",
     description: [
-      "Modified SIR with Exposed/Vaccinated compartments, non-constant population, age stratification, risk factors.",
-      "Real-time COVID-19 data; MLE/Bayesian inference; Kalman/Particle filters; collaboration with Dr. Tom Crawford.",
+      "Extended the classical SIR model into an age-stratified SEIRV framework incorporating Exposed and Vaccinated compartments, non-constant population dynamics, and heterogeneous risk groups. Solved the coupled ODEs in SciPy and performed Bayesian parameter inference in PyMC3.",
+      "Applied Unscented and Particle Filters (FilterPy) to perform sequential Bayesian updates of transmission parameters and compartment values (S, E, I, R, V) over time using static COVID-19 datasets.",
     ],
   },
 ];
