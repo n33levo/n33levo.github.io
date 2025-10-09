@@ -1,12 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 
-interface ChatWindowProps {
-  onClose: () => void;
-  onMinimize: () => void;
-  onMaximize: () => void;
-}
-
 interface Message {
   id: number;
   text: string;
@@ -15,11 +9,39 @@ interface Message {
   isStreaming?: boolean;
 }
 
-const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
+interface ChatWindowProps {
+  onClose: () => void;
+  onMinimize: () => void;
+  onMaximize: () => void;
+  title?: string;
+  initialMessage?: string;
+  endpoint?: string;
+  sessionPrefix?: string;
+  placeholder?: string;
+  sendLabel?: string;
+  streamingDelayMs?: number;
+}
+
+const DEFAULT_INITIAL_MESSAGE =
+  "Hey, I'm Chai — Neel's on-site chat buddy. Ask about books, life, or even Neel if you're curious.";
+const DEFAULT_ENDPOINT = "https://neel-chatbot-backend-production.up.railway.app/chat/stream";
+
+const ChatWindow = ({
+  onClose,
+  onMinimize,
+  onMaximize,
+  title = "chai",
+  initialMessage = DEFAULT_INITIAL_MESSAGE,
+  endpoint = DEFAULT_ENDPOINT,
+  sessionPrefix = "session",
+  placeholder = "Type a message...",
+  sendLabel = "Send",
+  streamingDelayMs = 20,
+}: ChatWindowProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hey, I'm Chai ☕ — your chat buddy living on Neel's site. I vibe with Dostoevsky, Kafka, Nietzsche, Freud, and Marx — Neel's favorites. We can talk about anything… even Neel himself, if you're curious.",
+      text: initialMessage,
       sender: "ai",
       timestamp: new Date(),
     },
@@ -28,7 +50,9 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const sessionId = useRef(`session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+  const sessionId = useRef(
+    `${sessionPrefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  );
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -37,7 +61,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
 
   const sendMessageToAPIStream = async (message: string, onChunk: (chunk: string) => void): Promise<void> => {
     try {
-      const response = await fetch('https://neel-chatbot-backend-production.up.railway.app/chat/stream', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +107,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
                   if (data.content) {
                     onChunk(data.content);
                     // Add a small delay to make streaming more visible
-                    await new Promise(resolve => setTimeout(resolve, 20));
+                    await new Promise(resolve => setTimeout(resolve, streamingDelayMs));
                   }
                   if (data.done) {
                     return;
@@ -195,7 +219,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
             />
           </div>
           <div className="text-sm text-muted-foreground ml-4 font-medium">
-            chai
+            {title}
           </div>
         </div>
       </div>
@@ -244,7 +268,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Type a message..."
+            placeholder={placeholder}
             rows={1}
             className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none min-h-[40px] max-h-[120px] overflow-y-auto"
             style={{
@@ -262,7 +286,7 @@ const ChatWindow = ({ onClose, onMinimize, onMaximize }: ChatWindowProps) => {
             className="px-4 py-2 h-10 flex-shrink-0"
             disabled={!input.trim() || isLoading}
           >
-            {isLoading ? "..." : "Send"}
+            {isLoading ? "..." : sendLabel}
           </Button>
         </div>
       </div>

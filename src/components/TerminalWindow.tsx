@@ -185,10 +185,31 @@ const directoryStructure = {
   },
 };
 
-const WgetProgressAnimation = () => {
+const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smooth?: boolean, force?: boolean) => void; key?: string }) => {
   const [progress, setProgress] = useState(0);
   const [step, setStep] = useState(0);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const downloadTriggeredRef = useRef(false);
+
+  const downloadResume = () => {
+    if (downloadTriggeredRef.current) return; // Prevent multiple downloads
+    downloadTriggeredRef.current = true;
+    
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'sohail_sarkar_resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Reset state when component is re-mounted or key changes
+  useEffect(() => {
+    setProgress(0);
+    setStep(0);
+    setShowFinalMessage(false);
+    downloadTriggeredRef.current = false;
+  }, [key]);
 
   useEffect(() => {
     const steps = [
@@ -202,6 +223,7 @@ const WgetProgressAnimation = () => {
     if (step < steps.length) {
       const timer = setTimeout(() => {
         setStep(steps[step].nextStep);
+        scrollToBottom?.(false, true); // Force scroll after each step
       }, steps[step].delay);
       return () => clearTimeout(timer);
     }
@@ -212,17 +234,23 @@ const WgetProgressAnimation = () => {
         setProgress(prev => {
           if (prev >= 100) {
             clearInterval(progressTimer);
-            setTimeout(() => {
-              setShowFinalMessage(true);
-            }, 200);
+            // Only trigger completion once
+            if (!downloadTriggeredRef.current) {
+              setTimeout(() => {
+                setShowFinalMessage(true);
+                downloadResume(); // Trigger actual download
+                scrollToBottom?.(false, true); // Force scroll at completion
+              }, 200);
+            }
             return 100;
           }
+          scrollToBottom?.(false, true); // Force scroll during progress updates
           return prev + 2;
         });
       }, 30);
       return () => clearInterval(progressTimer);
     }
-  }, [step]);
+  }, [step, scrollToBottom]);
 
   const generateProgressBar = (progress: number) => {
     const barLength = 40;
@@ -252,7 +280,7 @@ const WgetProgressAnimation = () => {
       )}
       {step >= 4 && (
         <>
-          <div>Saving to: 'neel_sarkar_resume.pdf'</div>
+          <div>Saving to: 'sohail_sarkar_resume.pdf'</div>
           <div></div>
         </>
       )}
@@ -264,7 +292,7 @@ const WgetProgressAnimation = () => {
       {showFinalMessage && (
         <>
           <div></div>
-          <div>'neel_sarkar_resume.pdf' saved</div>
+          <div>'sohail_sarkar_resume.pdf' saved</div>
           <div></div>
           <div className="text-primary"> Resume downloaded successfully!</div>
         </>
@@ -285,8 +313,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Helper function to scroll to bottom smoothly
-  const scrollToBottom = (smooth = false) => {
-    if (outputRef.current && !userScrolledUp) {
+  const scrollToBottom = (smooth = false, force = false) => {
+    if (outputRef.current && (!userScrolledUp || force)) {
       if (smooth) {
         outputRef.current.scrollTo({
           top: outputRef.current.scrollHeight,
@@ -296,6 +324,11 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         outputRef.current.scrollTop = outputRef.current.scrollHeight;
       }
     }
+  };
+
+  // Force scroll to bottom (ignores userScrolledUp state)
+  const forceScrollToBottom = (smooth = false) => {
+    scrollToBottom(smooth, true);
   };
 
   // Check if user is near the bottom of the scroll area
@@ -396,6 +429,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
     const trimmedCmd = cmd.trim();
     const lowerCmd = trimmedCmd.toLowerCase();
     let output: string | JSX.Element = "";
+    
+    // Reset scroll state when executing commands to ensure scrolling works
+    setUserScrolledUp(false);
 
     // Handle greeting commands
     if (['hi', 'hello', 'hey', 'hiya', 'howdy', 'greetings'].includes(lowerCmd)) {
@@ -515,6 +551,11 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                   <div>▸ Avid reader of Camus, Dostoevsky, and Ruskin Bond</div>
                 </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom} onComplete={() => {
+                  setTimeout(() => scrollToBottom(), 100);
+                }}>
+                    <div>▸ Obsessed with investing, grew portfolio by <span className="text-terminal-red font-semibold">~490%</span> in <span className="text-terminal-red font-semibold">2.5 years</span>.</div>
+                </TypewriterEffect>
                 <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                   <div>▸ Proud dog brother to <button onClick={() => executeCommand('ls ./snowyandpluto/')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">Snowy and Pluto</button>, who debug my life better than I do</div>
                 </TypewriterEffect>
@@ -616,9 +657,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                     <div className="ml-4 mt-1 text-sm">- Working on data platforms with EO Ventures and ML systems at Sigma Squared.</div>
-                    <div className="ml-4 text-sm">- Currently engineering an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction.</div>
-                    <div className="ml-4 text-sm">- Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping.</div>
-                    <div className="ml-4 text-sm">- Co-authoring proprietary research in econometric-based performance clustering and calibration.</div>
+                    <div className="ml-4 text-sm">- Engineered an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction reduced <span className="text-terminal-green">variance by 27%, & RMSE  by 8% (5-fold CV)</span>.</div>
+                    <div className="ml-4 text-sm">- Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping, <span className="text-terminal-green">scaling 50+ workflows</span> across research pipelines.</div>
+                    <div className="ml-4 text-sm">- Co-authoring proprietary research on econometric-based performance clustering and calibration.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -636,8 +677,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                     <div className="ml-4 mt-1 text-sm">- Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.</div>
-                    <div className="ml-4 text-sm">- Reinforced processing with claimification-based cross-referencing for all answers, achieving 100% factual accuracy.</div>
-                    <div className="ml-4 text-sm">- Contributed layers in the neural retriever, cutting batch inference time from 20 min to 3 min.</div>
+                    <div className="ml-4 text-sm">- Reinforced processing with claimification-based cross-referencing for all answering achieving <span className="text-terminal-green">100% factual accuracy</span>.</div>
+                    <div className="ml-4 text-sm">- Built Scala layers in neural retrievers for preprocessing & learned query routing cutting batch inference <span className="text-terminal-green">20→3 min</span>.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -654,8 +695,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Toronto, ON — January – April 2025</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases.</div>
-                    <div className="ml-4 text-sm">- Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat interfaces.</div>
+                    <div className="ml-4 mt-1 text-sm">- Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases, cut release lead-time by <span className="text-terminal-green">60% (5d→2d)</span>.</div>
+                    <div className="ml-4 text-sm">- Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat.</div>
                     <div className="ml-4 text-sm">- Exposed library GPU cluster via REST control plane for LLM fine-tuning with job scheduling and telemetry.</div>
                   </TypewriterEffect>
                 </div>
@@ -673,8 +714,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Toronto, ON — Sept – Dec 2024</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Developed version-controlled scheduling system with Random Forest allocator using performance metrics.</div>
-                    <div className="ml-4 text-sm">- Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management.</div>
+                    <div className="ml-4 mt-1 text-sm">- Developed version control scheduling system with an optimised Random Forest allocator <span className="text-terminal-green">6× faster allocation & 12% more coverage</span>.</div>
+                    <div className="ml-4 text-sm">- Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management which reduced IT desk resolution time by <span className="text-terminal-green">40% (3d→1.8d)</span>.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -973,7 +1014,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         break;
 
       case "wget resume":
-        output = <WgetProgressAnimation />;
+        output = <WgetProgressAnimation scrollToBottom={scrollToBottom} key={Date.now().toString()} />;
         break;
 
       case "ls ./snowyandpluto/":
@@ -1098,7 +1139,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
     setHistoryIndex(-1);
     
     // Force scroll to bottom after command execution - minimal delay for simple commands
-    setTimeout(() => scrollToBottom(), 50);
+    setTimeout(() => scrollToBottom(false, true), 50);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
