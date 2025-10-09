@@ -542,25 +542,55 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               </div>
             </div>
             <div>
-              <div className="text-terminal-cyan">stock-llm.txt</div>
-              <div className="text-muted-foreground ml-4">Fine-Tuned Stock Analysis LLM (Bayesian-LoRA, PyTorch, PEFT, BitsAndBytes 4-bit).</div>
-              <div className="text-muted-foreground ml-4">Trained on market reports, earnings transcripts, SEC filings.</div>
-              <div className="text-muted-foreground ml-4">Implemented gated Bayesian rank selection to adapt per layer and reduce memory overhead.</div>
+              <div className="text-terminal-cyan">Fine-Tuned Stock Analysis LLM — Nov 2024</div>
+              <div className="ml-4 flex flex-wrap mb-3">
+                <SkillItem skill="QLoRA" />
+                <SkillItem skill="PyTorch" />
+                <SkillItem skill="bitsandbytes" />
+                <SkillItem skill="PEFT" />
+                <SkillItem skill="CUDA" />
+              </div>
+              <div className="text-muted-foreground ml-4">→ Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA GPU)</div>
+              <div className="text-muted-foreground ml-4">→ Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead..</div>
             </div>
             <div>
-              <div className="text-terminal-cyan">recsys.txt</div>
-              <div className="text-muted-foreground ml-4">Movie recommendation engine (PyTorch + Neo4j); matrix-factorization embeddings from watch/rating/review data.</div>
-              <div className="text-muted-foreground ml-4">Scraping via bs4/Selenium; Dockerized; Phase 2 on AWS ECS + Kubernetes; Ruby on Rails UI.</div>
+              <div className="text-terminal-cyan">Recommendation Engine — Mar 2024</div>
+              <div className="ml-4 flex flex-wrap mb-3">
+                <SkillItem skill="Neo4j" />
+                <SkillItem skill="PyTorch" />
+                <SkillItem skill="FastAPI" />
+                <SkillItem skill="Dagster" />
+                <SkillItem skill="AWS EKS (Kubernetes)" />
+                <SkillItem skill="Docker" />
+              </div>
+              <div className="text-muted-foreground ml-4">→ Built a hybrid recommender: implicit-feedback ALS on watch history combined with content/graph signals from a Neo4j knowledge graph (genre, director, actors, keywords), fused with a learned re-ranker.</div>
+              <div className="text-muted-foreground ml-4">→ Containerized a FastAPI inference service and Dagster training/refresh pipelines; deployed on AWS EKS (Kubernetes) with autoscaled endpoints (Docker) for scalable and low-latency recommendation delivery.</div>
             </div>
             <div>
-              <div className="text-terminal-cyan">ocr-digitizer.txt</div>
-              <div className="text-muted-foreground ml-4">OCR automation with TensorFlow/Keras (C# via TensorFlow.NET); PostgreSQL storage; Pandas/Excel pipelines.</div>
-              <div className="text-muted-foreground ml-4">Licensed to law & supply-chain firms; ~$35,000 total sales.</div>
+              <div className="text-terminal-cyan">OCR Digitizer Automation — May 2023</div>
+              <div className="ml-4 flex flex-wrap mb-3">
+                <SkillItem skill="TensorFlow.NET" />
+                <SkillItem skill="C#" />
+                <SkillItem skill="WPF" />
+                <SkillItem skill="Keras.NET" />
+                <SkillItem skill="PostgreSQL" />
+                <SkillItem skill="Pandas/Excel" />
+              </div>
+              <div className="text-muted-foreground ml-4">→ Developed a Windows desktop app with a CRNN-style OCR (CNN → BiLSTM → CTC) and beam-search decoding, plus layout segmentation and post-processing (normalization, de-duplication, schema validation); wrote normalized records to PostgreSQL and exported QA/exception reports via Pandas/Excel.</div>
+              <div className="text-muted-foreground ml-4">→ Licensed as on-premise/per-seat software; generated <span className="text-terminal-green">USD 35,000</span> in sales by licensing to legal and supply-chain firms around North-Bengal.</div>
             </div>
             <div>
-              <div className="text-terminal-cyan">modified-sir.txt</div>
-              <div className="text-muted-foreground ml-4">Modified SIR with Exposed/Vaccinated compartments, non-constant population, age stratification, risk factors.</div>
-              <div className="text-muted-foreground ml-4">Real-time COVID-19 data; MLE/Bayesian inference; Kalman/Particle filters; collaboration with Dr. Tom Crawford.</div>
+              <div className="text-terminal-cyan">Modified SIR — Feb 2022</div>
+              <div className="ml-4 flex flex-wrap mb-3">
+                <SkillItem skill="immunology" />
+                <SkillItem skill="PDEs" />
+                <SkillItem skill="SciPy" />
+                <SkillItem skill="Pandas" />
+                <SkillItem skill="PyMC3" />
+                <SkillItem skill="FilterPy" />
+              </div>
+              <div className="text-muted-foreground ml-4">→ Extended the classical SIR model into an age-stratified SEIRV framework incorporating Exposed and Vaccinated compartments, non-constant population dynamics, and heterogeneous risk groups. Solved the coupled ODEs in SciPy and performed Bayesian parameter inference in PyMC3.</div>
+              <div className="text-muted-foreground ml-4">→ Applied Unscented and Particle Filters (FilterPy) to perform sequential Bayesian updates of transmission parameters and compartment values (S, E, I, R, V) over time using static COVID-19 datasets.</div>
             </div>
           </div>
         );
@@ -922,7 +952,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                 />
                 <div className="flex-1">
                   <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
-                    <div className="text-terminal-cyan font-semibold">Trinity College — Toronto, ON</div>
+                    <div className="text-terminal-cyan font-semibold">Trinity College — London, England</div>
                     <div className="text-muted-foreground">ACTL Classical Guitar — June 2021</div>
                   </TypewriterEffect>
                 </div>
