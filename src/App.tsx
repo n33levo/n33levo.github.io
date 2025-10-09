@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import MobileIndexSimple from "./pages/MobileIndexSimple";
 import Chai from "./pages/Chai";
+import ChaiClassic from "./pages/ChaiClassic";
 import ResponsiveIndex from "./pages/ResponsiveIndex";
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<ResponsiveIndex />} />
             <Route path="/mobile" element={<MobileIndexSimple />} />
+            <Route path="/chai" element={<ChaiClassic />} />
             <Route path="/ai" element={<Chai />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

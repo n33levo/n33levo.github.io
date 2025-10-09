@@ -131,14 +131,22 @@ const MobileIndexSimple = () => {
         </section>
 
         <section className="space-y-4" id="projects">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
             <h2 className="text-2xl font-semibold text-primary">Projects</h2>
-            <button
-              onClick={() => navigate("/ai")}
-              className="rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"
-            >
-              Launch AI Rep
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate("/chai")}
+                className="rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-colors"
+              >
+                Launch Chai
+              </button>
+              <button
+                onClick={() => navigate("/ai")}
+                className="rounded-md border border-border px-3 py-1 text-sm font-semibold text-primary shadow hover:bg-card/80 transition-colors"
+              >
+                AI Rep
+              </button>
+            </div>
           </div>
           <div className="space-y-4">
             {projects.map((project) => (
