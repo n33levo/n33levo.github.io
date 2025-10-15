@@ -489,14 +489,11 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               <div>├── achievements.txt</div>
               <div>├── activities.txt</div>
               <div>├── <span className="text-terminal-cyan">archives/</span></div>
-              <div>│<span style={{paddingLeft: '30px'}}>└── old_experience.txt</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>├── old_experience.txt</span></div>
+              <div>│<span style={{paddingLeft: '30px'}}>└── old_projects.txt</span></div>
               <div>├── education.txt</div>
               <div>├── experience.txt</div>
               <div>├── <span className="text-terminal-cyan">projects/</span></div>
-              <div>│<span style={{paddingLeft: '30px'}}>├── modified-sir</span></div>
-              <div>│<span style={{paddingLeft: '30px'}}>├── ocr-digitizer</span></div>
-              <div>│<span style={{paddingLeft: '30px'}}>├── reccomendation-engine</span></div>
-              <div>│<span style={{paddingLeft: '30px'}}>└── stock-analysis-llm</span></div>
               <div>├── <span className="text-terminal-cyan">skills/</span></div>
               <div>│<span style={{paddingLeft: '30px'}}>├── ai_ml</span></div>
               <div>│<span style={{paddingLeft: '30px'}}>├── databases</span></div>
@@ -505,10 +502,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               <div>│<span style={{paddingLeft: '30px'}}>├── languages</span></div>
               <div>│<span style={{paddingLeft: '30px'}}>└── other</span></div>
               <div>└── <span className="text-terminal-cyan">socials/</span></div>
-              <div><span style={{paddingLeft: '35px'}}>├── email</span></div>
-              <div><span style={{paddingLeft: '35px'}}>├── github</span></div>
-              <div><span style={{paddingLeft: '35px'}}>├── instagram</span></div>
-              <div><span style={{paddingLeft: '35px'}}>└── linkedin</span></div>
+            </div>
+            <div className="text-muted-foreground text-xs mt-2 italic">
+              Tip: Use <span className="text-terminal-cyan">cat archives/old_projects.txt</span> to view archived projects
             </div>
           </div>
         );
@@ -575,63 +571,14 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
             <div className="text-primary font-semibold">Projects</div>
             <div className="mt-4 p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
               <div className="text-muted-foreground text-sm">
-                I mostly code to make my life easier — automating the boring stuff before it automates me. 
-                Not many public repos (yet), because I build faster than I document, and most development 
-                this past year has lived in private, company-owned repos via corporate GitHub accounts(No access to them anymore).
+                I mostly code to make my life easier — automating the boring stuff before it automates me.
+                Not many public repos (yet), because I build faster than I document, and most development
+                this past year has lived in private, company-owned repos via corporate GitHub accounts (No access to them anymore).
                 <br /><br />
-                <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
+                <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
+                <br /><br />
+                Check out my <button onClick={() => executeCommand('cat archives/old_projects.txt')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">archived projects</button> for personal projects from earlier work.
               </div>
-            </div>
-            <div>
-              <div className="text-terminal-cyan">Fine-Tuned Stock Analysis LLM — Nov 2024</div>
-              <div className="ml-4 flex flex-wrap mb-3">
-                <SkillItem skill="QLoRA" />
-                <SkillItem skill="PyTorch" />
-                <SkillItem skill="bitsandbytes" />
-                <SkillItem skill="PEFT" />
-                <SkillItem skill="CUDA" />
-              </div>
-              <div className="text-muted-foreground ml-4">→ Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA).</div>
-              <div className="text-muted-foreground ml-4">→ Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead.</div>
-            </div>
-            <div>
-              <div className="text-terminal-cyan">Recommendation Engine — Mar 2024</div>
-              <div className="ml-4 flex flex-wrap mb-3">
-                <SkillItem skill="Neo4j" />
-                <SkillItem skill="PyTorch" />
-                <SkillItem skill="FastAPI" />
-                <SkillItem skill="Dagster" />
-                <SkillItem skill="AWS EKS (Kubernetes)" />
-                <SkillItem skill="Docker" />
-              </div>
-              <div className="text-muted-foreground ml-4">→ Built a hybrid recommender: implicit-feedback ALS on watch history combined with content/graph signals from a Neo4j knowledge graph (genre, director, actors, keywords), fused with a learned re-ranker.</div>
-              <div className="text-muted-foreground ml-4">→ Containerized a FastAPI inference service and Dagster training/refresh pipelines; deployed on AWS EKS (Kubernetes) with autoscaled endpoints (Docker) for scalable and low-latency recommendation delivery.</div>
-            </div>
-            <div>
-              <div className="text-terminal-cyan">OCR Digitizer Automation — May 2023</div>
-              <div className="ml-4 flex flex-wrap mb-3">
-                <SkillItem skill="TensorFlow.NET" />
-                <SkillItem skill="C#" />
-                <SkillItem skill="WPF" />
-                <SkillItem skill="Keras.NET" />
-                <SkillItem skill="PostgreSQL" />
-                <SkillItem skill="Pandas/Excel" />
-              </div>
-              <div className="text-muted-foreground ml-4">→ Developed a Windows desktop app with a CRNN-style OCR (CNN → BiLSTM → CTC) and beam-search decoding, plus layout segmentation and post-processing (normalization, de-duplication, schema validation); wrote normalized records to PostgreSQL and exported QA/exception reports via Pandas/Excel.</div>
-              <div className="text-muted-foreground ml-4">→ Licensed as on-premise/per-seat software; generated <span className="text-terminal-green">USD 35,000</span> in sales by licensing to legal and supply-chain firms around North-Bengal.</div>
-            </div>
-            <div>
-              <div className="text-terminal-cyan">Modified SIR — Feb 2022</div>
-              <div className="ml-4 flex flex-wrap mb-3">
-                <SkillItem skill="immunology" />
-                <SkillItem skill="PDEs" />
-                <SkillItem skill="SciPy" />
-                <SkillItem skill="Pandas" />
-                <SkillItem skill="PyMC3" />
-                <SkillItem skill="FilterPy" />
-              </div>
-              <div className="text-muted-foreground ml-4">→ Extended the classical SIR model into an age-stratified SEIRV framework incorporating Exposed and Vaccinated compartments, non-constant population dynamics, and heterogeneous risk groups. Solved the coupled ODEs in SciPy and performed Bayesian parameter inference in PyMC3.</div>
-              <div className="text-muted-foreground ml-4">→ Applied Unscented and Particle Filters (FilterPy) to perform sequential Bayesian updates of transmission parameters and compartment values (S, E, I, R, V) over time using static COVID-19 datasets.</div>
             </div>
           </div>
         );
@@ -834,7 +781,91 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
           </AnimatedTerminalOutput>
         );
         break;
-        
+
+      case "cat archives/old_projects.txt":
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="border border-terminal-cyan rounded-md p-4 bg-card/50 space-y-6">
+              <TypewriterEffect delay={30}>
+                <div className="text-primary font-semibold">📁 Archived Projects</div>
+                <div className="text-sm text-muted-foreground">Personal projects from my earlier work</div>
+              </TypewriterEffect>
+
+              <div>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">Fine-Tuned Stock Analysis LLM — Nov 2024</div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="QLoRA" />
+                  <SkillItem skill="PyTorch" />
+                  <SkillItem skill="bitsandbytes" />
+                  <SkillItem skill="PEFT" />
+                  <SkillItem skill="CUDA" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Trained Llama-3.1-8B on market reports, earnings-call transcripts, and SEC filings using a QLoRA setup (4-bit via bitsandbytes) with LoRA adapters optimized via PEFT on an NVIDIA RTX 3090 (CUDA).</div>
+                  <div className="text-muted-foreground ml-4">→ Implemented Bayesian rank-gating to adjust LoRA rank per layer, maintaining performance while reducing memory and compute overhead.</div>
+                </TypewriterEffect>
+              </div>
+
+              <div>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">Recommendation Engine — Mar 2024</div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="Neo4j" />
+                  <SkillItem skill="PyTorch" />
+                  <SkillItem skill="FastAPI" />
+                  <SkillItem skill="Dagster" />
+                  <SkillItem skill="AWS EKS (Kubernetes)" />
+                  <SkillItem skill="Docker" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Built a hybrid recommender: implicit-feedback ALS on watch history combined with content/graph signals from a Neo4j knowledge graph (genre, director, actors, keywords), fused with a learned re-ranker.</div>
+                  <div className="text-muted-foreground ml-4">→ Containerized a FastAPI inference service and Dagster training/refresh pipelines; deployed on AWS EKS (Kubernetes) with autoscaled endpoints (Docker) for scalable and low-latency recommendation delivery.</div>
+                </TypewriterEffect>
+              </div>
+
+              <div>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">OCR Digitizer Automation — May 2023</div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="TensorFlow.NET" />
+                  <SkillItem skill="C#" />
+                  <SkillItem skill="WPF" />
+                  <SkillItem skill="Keras.NET" />
+                  <SkillItem skill="PostgreSQL" />
+                  <SkillItem skill="Pandas/Excel" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Developed a Windows desktop app with a CRNN-style OCR (CNN → BiLSTM → CTC) and beam-search decoding, plus layout segmentation and post-processing (normalization, de-duplication, schema validation); wrote normalized records to PostgreSQL and exported QA/exception reports via Pandas/Excel.</div>
+                  <div className="text-muted-foreground ml-4">→ Licensed as on-premise/per-seat software; generated <span className="text-terminal-green">USD 35,000</span> in sales by licensing to legal and supply-chain firms around North-Bengal.</div>
+                </TypewriterEffect>
+              </div>
+
+              <div>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">Modified SIR — Feb 2022</div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="immunology" />
+                  <SkillItem skill="PDEs" />
+                  <SkillItem skill="SciPy" />
+                  <SkillItem skill="Pandas" />
+                  <SkillItem skill="PyMC3" />
+                  <SkillItem skill="FilterPy" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Extended the classical SIR model into an age-stratified SEIRV framework incorporating Exposed and Vaccinated compartments, non-constant population dynamics, and heterogeneous risk groups. Solved the coupled ODEs in SciPy and performed Bayesian parameter inference in PyMC3.</div>
+                  <div className="text-muted-foreground ml-4">→ Applied Unscented and Particle Filters (FilterPy) to perform sequential Bayesian updates of transmission parameters and compartment values (S, E, I, R, V) over time using static COVID-19 datasets.</div>
+                </TypewriterEffect>
+              </div>
+            </div>
+          </AnimatedTerminalOutput>
+        );
+        break;
+
       case "ls ./skills/":
         output = (
           <AnimatedTerminalOutput>

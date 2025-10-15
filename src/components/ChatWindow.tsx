@@ -107,10 +107,13 @@ const ChatWindow = ({
                     return;
                   }
                   if (data.content) {
-                    // Check for status messages in brackets
+                    // Check for status messages in brackets and update status indicator
                     const statusMatch = data.content.match(/\[([^\]]+)\.\.\.\]/);
                     if (statusMatch && onStatusChange) {
                       onStatusChange(statusMatch[1] + "...");
+                      // Don't add the bracketed status to the message - skip this chunk
+                      await new Promise(resolve => setTimeout(resolve, streamingDelayMs));
+                      continue;
                     }
                     onChunk(data.content);
                     // Add a small delay to make streaming more visible
