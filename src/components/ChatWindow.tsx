@@ -7,6 +7,7 @@ interface Message {
   sender: "user" | "ai";
   timestamp?: Date;
   isStreaming?: boolean;
+  statusMessage?: string;
 }
 
 interface ChatWindowProps {
@@ -48,6 +49,7 @@ const ChatWindow = ({
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingStatus, setStreamingStatus] = useState<string>("Streaming...");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const sessionId = useRef(
@@ -59,7 +61,7 @@ const ChatWindow = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessageToAPIStream = async (message: string, onChunk: (chunk: string) => void): Promise<void> => {
+  const sendMessageToAPIStream = async (message: string, onChunk: (chunk: string) => void, onStatusChange?: (status: string) => void): Promise<void> => {
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -105,11 +107,19 @@ const ChatWindow = ({
                     return;
                   }
                   if (data.content) {
+                    // Check for status messages in brackets
+                    const statusMatch = data.content.match(/\[([^\]]+)\.\.\.\]/);
+                    if (statusMatch && onStatusChange) {
+                      onStatusChange(statusMatch[1] + "...");
+                    }
                     onChunk(data.content);
                     // Add a small delay to make streaming more visible
                     await new Promise(resolve => setTimeout(resolve, streamingDelayMs));
                   }
                   if (data.done) {
+                    if (onStatusChange) {
+                      onStatusChange("Streaming...");
+                    }
                     return;
                   }
                 }
@@ -158,25 +168,32 @@ const ChatWindow = ({
       setMessages(prev => [...prev, aiMessage]);
 
       try {
-        await sendMessageToAPIStream(userMessage, (chunk: string) => {
-          setMessages(prev => prev.map(msg => 
-            msg.id === aiMessageId 
-              ? { ...msg, text: msg.text + chunk }
-              : msg
-          ));
-        });
-        
+        setStreamingStatus("Streaming...");
+        await sendMessageToAPIStream(
+          userMessage,
+          (chunk: string) => {
+            setMessages(prev => prev.map(msg =>
+              msg.id === aiMessageId
+                ? { ...msg, text: msg.text + chunk }
+                : msg
+            ));
+          },
+          (status: string) => {
+            setStreamingStatus(status);
+          }
+        );
+
         // Add timestamp when streaming is complete
-        setMessages(prev => prev.map(msg => 
-          msg.id === aiMessageId 
+        setMessages(prev => prev.map(msg =>
+          msg.id === aiMessageId
             ? { ...msg, timestamp: new Date(), isStreaming: false }
             : msg
         ));
       } catch (error) {
-        setMessages(prev => prev.map(msg => 
-          msg.id === aiMessageId 
-            ? { 
-                ...msg, 
+        setMessages(prev => prev.map(msg =>
+          msg.id === aiMessageId
+            ? {
+                ...msg,
                 text: "Sorry, I encountered an error. Please try again.",
                 timestamp: new Date(),
                 isStreaming: false
@@ -185,6 +202,7 @@ const ChatWindow = ({
         ));
       } finally {
         setIsLoading(false);
+        setStreamingStatus("Streaming...");
       }
     }
   };
@@ -252,7 +270,7 @@ const ChatWindow = ({
             <div className="bg-muted text-foreground px-3 py-2 rounded-lg">
               <div className="flex items-center space-x-2">
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-foreground"></div>
-                <span className="text-sm">Streaming...</span>
+                <span className="text-sm">{streamingStatus}</span>
               </div>
             </div>
           </div>
