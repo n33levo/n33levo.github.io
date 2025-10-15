@@ -82,7 +82,7 @@ const Chai = () => {
             onMaximize={handleMaximize}
             title="ai rep"
             initialMessage="Hi — I'm Neel's AI representative. I can answer questions about his experience and help you schedule a meeting with him. What would you like to know?"
-            endpoint="https://chatbot-backend-production-55e2.up.railway.app/recruiter/stream"
+            endpoint="https://chatbot-backend-production-55e2.up.railway.app/recruiter-smart/stream"
             sessionPrefix="ai-rep"
             placeholder="Ask about Neel or book a meeting..."
             sendLabel="Ask"
