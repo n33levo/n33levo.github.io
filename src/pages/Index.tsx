@@ -11,6 +11,7 @@ const Index = () => {
   const [isTerminalMinimized, setIsTerminalMinimized] = useState(false);
   const [isTerminalMaximized, setIsTerminalMaximized] = useState(false);
   const [commandToExecute, setCommandToExecute] = useState<string>("");
+  const hasAutoExecutedRef = useRef(false);
   
   // Store previous state for restoration
   const [previousState, setPreviousState] = useState<{
@@ -18,6 +19,24 @@ const Index = () => {
     isMinimized: boolean;
     isTerminalMinimized: boolean;
   } | null>(null);
+
+  // Auto-execute 'cat about.txt' on first mount only
+  useEffect(() => {
+    // Check if we've already auto-executed in this session
+    const hasAutoExecuted = sessionStorage.getItem('autoExecutedCatAbout');
+    
+    if (!hasAutoExecuted && !hasAutoExecutedRef.current) {
+      hasAutoExecutedRef.current = true;
+      sessionStorage.setItem('autoExecutedCatAbout', 'true');
+      
+      // Small delay to ensure terminal is ready
+      const timer = setTimeout(() => {
+        setCommandToExecute('cat about.txt');
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   // Play bounce sound effect
   const playBounceSound = () => {

@@ -567,20 +567,114 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         break;
       case "cd projects":
         output = (
-          <div className="space-y-3">
-            <div className="text-primary font-semibold">Projects</div>
-            <div className="mt-4 p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
-              <div className="text-muted-foreground text-sm">
-                I mostly code to make my life easier — automating the boring stuff before it automates me.
-                Not many public repos (yet), because I build faster than I document, and most development
-                this past year has lived in private, company-owned repos via corporate GitHub accounts (No access to them anymore).
-                <br /><br />
-                <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
-                <br /><br />
-                Check out my <button onClick={() => executeCommand('cat archives/old_projects.txt')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">archived projects</button> for personal projects from earlier work.
+          <AnimatedTerminalOutput>
+            <div className="space-y-8">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">Projects</div>
+              </TypewriterEffect>
+              
+              <div className="p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground text-sm">
+                    I mostly code to make my life easier — automating the boring stuff before it automates me.
+                    Not many public repos (yet), because I build faster than I document, and most development
+                    this past year has lived in private, company-owned repos via corporate GitHub accounts (No access to them anymore).
+                    <br /><br />
+                    <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
+                  </div>
+                </TypewriterEffect>
+              </div>
+
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-sm text-muted-foreground mt-2 mb-4">This is some of my latest work in 2025:</div>
+              </TypewriterEffect>
+
+              {/* refrag-lite */}
+              <div className="mt-6">
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">
+                    <a href="https://github.com/n33levo/refrag-lite" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      refrag-lite
+                    </a> — Token-efficient RL based RAG — Oct 2025
+                  </div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="PyTorch 2.3" />
+                  <SkillItem skill="CUDA 12 / MPS" />
+                  <SkillItem skill="Reinforcement Learning" />
+                  <SkillItem skill="HuggingFace Transformers" />
+                  <SkillItem skill="Sentence-Transformers" />
+                  <SkillItem skill="PEFT/LoRA" />
+                  <SkillItem skill="FAISS + BM25" />
+                  <SkillItem skill="NumPy" />
+                  <SkillItem skill="Docker/Makefile" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Implements RL-selective expansion under an explicit token budget: retrieve K → compress most chunks as learned vectors via encoder→projector adapters → LinUCB/Thompson/PPO policy expands only high-gain chunks; mixed compressed+expanded context flows directly into the LLM. End-to-end supports 1-GPU runs (8B) with AMP and cosine LR, exporting policies to a lightweight binary for inference.</div>
+                  <div className="text-muted-foreground ml-4">→ Multi-stage pipeline (reconstruction → continual pretraining → SFT → RL) with HotpotQA indexes (BM25+FAISS) and open-weight models delivers <span className="text-terminal-green">~67% token reduction and ~3× faster TTFT</span> with ≤1% EM/F1 delta vs standard RAG. Evaluation suite reports EM/F1, TTFT, throughput, and evidence precision/recall; policies exportable for arena/regression tests.</div>
+                </TypewriterEffect>
+              </div>
+
+              {/* KernelForgeML */}
+              <div className="mt-8">
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">
+                    <a href="https://github.com/n33levo/KernelForgeML" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      KernelForgeML
+                    </a> — Rust transformer compiler — Aug 2025
+                  </div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="Rust" />
+                  <SkillItem skill="MLIR/LLVM 18" />
+                  <SkillItem skill="wgpu/Metal" />
+                  <SkillItem skill="Rayon" />
+                  <SkillItem skill="safetensors" />
+                  <SkillItem skill="RoPE/KV-cache" />
+                  <SkillItem skill="Cargo Workspaces" />
+                  <SkillItem skill="GitHub Actions CI" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Designed a Rust-native compiler stack for transformer workloads using an MLIR-based IR and modular pass pipeline; defines and lowers attention, matmul, and normalization kernels with autotuned CPU/GPU backends. Enables lightweight LLM inference via a built-in decoder harness supporting KV-cache, RoPE embeddings, and safetensor weight loading for benchmarking transformer execution.</div>
+                  <div className="text-muted-foreground ml-4">→ Implements a full evaluation suite that benchmarks transformer GEMMs, auto-selects optimal kernels, and emits structured JSON performance reports; integrates autotuning caches for persistent optimization and provides future extensibility for fusion passes and learned kernel scheduling.</div>
+                </TypewriterEffect>
+              </div>
+
+              {/* son-of-magnus */}
+              <div className="mt-8">
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div className="text-terminal-cyan font-semibold">
+                    <a href="https://github.com/n33levo/sonofmagnus" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                      son-of-magnus
+                    </a> — Searchless Chess Neural Engine — Aug 2025
+                  </div>
+                </TypewriterEffect>
+                <div className="ml-4 flex flex-wrap mb-3">
+                  <SkillItem skill="PyTorch 2.x" />
+                  <SkillItem skill="CUDA 12" />
+                  <SkillItem skill="AMP (bf16)" />
+                  <SkillItem skill="python-chess" />
+                  <SkillItem skill="ONNX Runtime" />
+                  <SkillItem skill="INT8 Quantization" />
+                  <SkillItem skill="NumPy" />
+                  <SkillItem skill="Docker" />
+                  <SkillItem skill="Lambda Labs (A100)" />
+                </div>
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground ml-4">→ Built a no-search policy net: 18-channel 8×8 encoding → ResNet-12×128 → policy head (8×8×73) + value head with strict legal-move masking; single forward pass selects moves. Trained with multi-task loss α·CE + β·MSE(Q) + γ·MSE(value) using Q(m)=σ(cp/400) from multipv centipawn labels.</div>
+                  <div className="text-muted-foreground ml-4">→ Automated A→B→C curriculum over <span className="text-terminal-green">70M human positions + 2.5M Stockfish Q-targets + 1M self-play</span>, trained on A100 GPUs with AMP and cosine LR; exported FP16→ONNX and quantized to INT8. Achieved <span className="text-terminal-green">≈2600 Elo</span> with &lt;100 ms CPU / &lt;20 ms GPU latency, zero illegal moves, and arena validation vs baselines.</div>
+                </TypewriterEffect>
+              </div>
+
+              <div className="mt-10 p-3 border-l-4 border-terminal-cyan bg-muted/30 rounded-r">
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground text-sm">
+                    Check out my <button onClick={() => executeCommand('cat archives/old_projects.txt')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">archived projects</button> for personal projects from earlier work.
+                  </div>
+                </TypewriterEffect>
               </div>
             </div>
-          </div>
+          </AnimatedTerminalOutput>
         );
         break;
       case "cat experience.txt":
