@@ -85,7 +85,7 @@ const ChaiClassic = () => {
             onMaximize={handleMaximize}
             title="chai"
             initialMessage={CHAI_GREETING}
-            endpoint="https://neel-chatbot-backend-production.up.railway.app/chat/stream"
+            endpoint="https://chatbot-backend-production-55e2.up.railway.app/chat/stream"
             sessionPrefix="chai"
             placeholder="Type a message..."
             sendLabel="Send"

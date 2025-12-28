@@ -25,7 +25,7 @@ interface ChatWindowProps {
 
 const DEFAULT_INITIAL_MESSAGE =
   "Hey, I'm Chai ☕ — your chat buddy living on Neel's site. I vibe with Dostoevsky, Kafka, Nietzsche, Freud, and Marx — Neel's favorites. We can talk about anything.";
-const DEFAULT_ENDPOINT = "https://neel-chatbot-backend-production.up.railway.app/chat/stream";
+const DEFAULT_ENDPOINT = "https://chatbot-backend-production-55e2.up.railway.app/chat/stream";
 
 const ChatWindow = ({
   onClose,
