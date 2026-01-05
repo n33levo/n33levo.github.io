@@ -687,6 +687,23 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               
               <div className="flex items-start space-x-3">
                 <ImageLoader 
+                  src="/uhn_logo.png" 
+                  alt="UHN Logo" 
+                  className="w-12 h-12 rounded object-contain bg-white p-1"
+                />
+                <div className="flex-1">
+                  <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                    <div className="text-terminal-cyan font-semibold">Research Intern, UHN + Vector Institute of AI</div>
+                    <div className="text-muted-foreground">Toronto, ON — Nov 2025 – Present</div>
+                  </TypewriterEffect>
+                  <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                    <div className="ml-4 mt-1 text-sm">- Architecting a scalable V2G discovery framework at PMCC AI Lab on distributed cloud infrastructure; synthesizing <span className="text-terminal-green">probabilistic fine-mapping</span> and agentic functional reasoning to prioritize causal variants in oncogenic and complex traits.</div>
+                  </TypewriterEffect>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <ImageLoader 
                   src="/sigmasquared_logo.png" 
                   alt="Sigma Squared Logo" 
                   className="w-12 h-12 rounded object-contain bg-white p-1"
@@ -697,10 +714,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Boston, MA — June 2025 – Present</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Working on data platforms with EO Ventures and ML systems at Sigma Squared.</div>
-                    <div className="ml-4 text-sm">- Engineered an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction reduced <span className="text-terminal-green">variance by 27%, & RMSE  by 8% (5-fold CV)</span>.</div>
-                    <div className="ml-4 text-sm">- Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping, <span className="text-terminal-green">scaling 50+ workflows</span> across research pipelines.</div>
-                    <div className="ml-4 text-sm">- Co-authoring proprietary research on econometric-based performance clustering and calibration.</div>
+                    <div className="ml-4 mt-1 text-sm">- Engineered Agentic EDA-to-ETL pipeline in PySpark with MLflow tracking; used Optuna for Bayesian hyperparameter tuning & ensemble calibration, achieving <span className="text-terminal-green">27% variance reduction and 8% RMSE improvement</span>; deployed via Kubernetes for large-scale predictive workflows.</div>
+                    <div className="ml-4 text-sm">- Cowrote low-level Agentic SDK library with MCP wrapping across <span className="text-terminal-green">50+ workflows</span>; scaled ETL with Airflow, Kafka, and dbt, achieving <span className="text-terminal-green">99.95% SLA and sub-100 ms latency</span> via caching and concurrency tuning, with OpenTelemetry SLO monitoring.</div>
+                    <div className="ml-4 text-sm">- Coauthoring proprietary research on <span className="text-terminal-green">econometric-based clustering</span> for embeddings; translating theory into scalable code using probabilistic calibration and statistical modeling with PyMC, Statsmodels, and reproducible pipelines in DVC.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -717,9 +733,9 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Montréal, QC — May – July 2025</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.</div>
-                    <div className="ml-4 text-sm">- Reinforced processing with claimification-based cross-referencing for all answering achieving <span className="text-terminal-green">100% factual accuracy</span>.</div>
-                    <div className="ml-4 text-sm">- Built Scala layers in neural retrievers for preprocessing & learned query routing cutting batch inference <span className="text-terminal-green">20→3 min</span>.</div>
+                    <div className="ml-4 mt-1 text-sm">- Architected α-signal pipeline on Databricks using Delta Lake and Apache Spark for distributed orchestration; implemented asynchronous multi-stage parallel retrievers with Azure OpenAI Batch and trained ranking, answering <span className="text-terminal-green">3,000+ analyst questions per batch</span>.</div>
+                    <div className="ml-4 text-sm">- Reinforced answers with Microsoft Claimification extracted and cross-referenced claims with parallelised compliment retrieving; internal benchmarking achieved <span className="text-terminal-green">99% entailment, 91.8% accuracy, 91.2% macro-F1 and ≤5.4% ambiguity</span>.</div>
+                    <div className="ml-4 text-sm">- Built a Scala-based retrieval optimization layer leveraging MLlib MinHashLSH deduplication and learned query routing; <span className="text-terminal-green">reduced cross-retriever collisions by 58%</span> and improved evidence latency from <span className="text-terminal-green">20 to 3 minutes</span>.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -736,9 +752,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Toronto, ON — January – April 2025</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases, cut release lead-time by <span className="text-terminal-green">60% (5d→2d)</span>.</div>
-                    <div className="ml-4 text-sm">- Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat.</div>
-                    <div className="ml-4 text-sm">- Exposed library GPU cluster via REST control plane for LLM fine-tuning with job scheduling and telemetry.</div>
+                    <div className="ml-4 mt-1 text-sm">- Delivered a multi-tenant RAG chatbot with LangChain routing on Pinecone namespaces; indexed Microsoft 365 SharePoint via Microsoft Graph (delta sync) and ServiceNow Knowledge API; tracked retrieval metadata in Postgres.</div>
+                    <div className="ml-4 text-sm">- Shipped CI/CD for RAG (GitHub Actions + RAGAS evals) with automated index refresh and Unsloth-based GPU fine-tuning (QLoRA); instrumented pipelines with OpenTelemetry and monitored via Prometheus, cutting release time by <span className="text-terminal-green">60%</span>.</div>
                   </TypewriterEffect>
                 </div>
               </div>
@@ -755,8 +770,8 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     <div className="text-muted-foreground">Toronto, ON — Sept – Dec 2024</div>
                   </TypewriterEffect>
                   <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
-                    <div className="ml-4 mt-1 text-sm">- Developed version control scheduling system with an optimised Random Forest allocator <span className="text-terminal-green">6× faster allocation & 12% more coverage</span>.</div>
-                    <div className="ml-4 text-sm">- Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management which reduced IT desk resolution time by <span className="text-terminal-green">40% (3d→1.8d)</span>.</div>
+                    <div className="ml-4 mt-1 text-sm">- Developed a version-control employee scheduling system that automates shift assignments from submitted availability; integrated a Random Forest model for reasoning-based optimization using historical performance data, improving shift coverage by <span className="text-terminal-green">12%</span>.</div>
+                    <div className="ml-4 text-sm">- Implemented OAuth-secured ticketing system with REST endpoints for ticket creation and updates; stored records in MongoDB, managed sessions with Redis, and synced analytics to Google Sheets, reducing IT desk resolution time by <span className="text-terminal-green">40% (3d→1.8d)</span>.</div>
                   </TypewriterEffect>
                 </div>
               </div>
