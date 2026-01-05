@@ -47,7 +47,7 @@ export const aboutContent = {
   preludeHeading: "A bit about me:",
   highlights: [
     {
-      text: "▸ Currently the Applied AI Resident Scientist(Intern) at Sigma Squared, under EO Ventures.",
+      text: "▸ Currently Research@UHN + Vector Institute, Applied AI@Sigma Squared (σ²) under EO Ventures",
     },
     {
       text: "▸ Into NLP, proofs, automation, modelling, compression and optimization",
@@ -72,17 +72,27 @@ export const aboutContent = {
 
 export const experiences: ExperienceItem[] = [
   {
-    role: "Applied AI/Econometrics Intern",
+    role: "Research Intern",
+    organization: "UHN + Vector Institute of AI",
+    location: "Toronto, ON",
+    dates: "Nov 2025 – Present",
+    logoSrc: "/uhn_logo.png",
+    logoAlt: "UHN Logo",
+    bullets: [
+      "Architecting a scalable V2G discovery framework at PMCC AI Lab on distributed cloud infrastructure; synthesizing probabilistic fine-mapping and agentic functional reasoning to prioritize causal variants in oncogenic and complex traits.",
+    ],
+  },
+  {
+    role: "Applied AI Intern",
     organization: "Sigma Squared",
     location: "Boston, MA",
     dates: "June 2025 – Present",
     logoSrc: "/sigmasquared_logo.png",
     logoAlt: "Sigma Squared Logo",
     bullets: [
-      "Working on data platforms with EO Ventures and ML systems at Sigma Squared.",
-      "Engineered an agentic EDA(Exploratory Data Analysis)-to-ETL pipeline, ensembling CatBoost with TabPFN for success-factors behavior prediction reduced variance by 27%, & RMSE by 8% (5-fold CV).",
-      "Built platform-integrated, fully autonomous, prompt-triggered Agentic SDK with MCP wrapping, scaling 50+ workflows across research pipelines.",
-      "Co-authoring proprietary research on econometric-based performance clustering and calibration.",
+      "Engineered Agentic EDA-to-ETL pipeline in PySpark with MLflow tracking; used Optuna for Bayesian hyperparameter tuning & ensemble calibration, achieving 27% variance reduction and 8% RMSE improvement; deployed via Kubernetes for large-scale predictive workflows.",
+      "Cowrote low-level Agentic SDK library with MCP wrapping across 50+ workflows; scaled ETL with Airflow, Kafka, and dbt, achieving 99.95% SLA and sub-100 ms latency via caching and concurrency tuning, with OpenTelemetry SLO monitoring.",
+      "Coauthoring proprietary research on econometric-based clustering for embeddings; translating theory into scalable code using probabilistic calibration and statistical modeling with PyMC, Statsmodels, and reproducible pipelines in DVC.",
     ],
   },
   {
@@ -93,9 +103,9 @@ export const experiences: ExperienceItem[] = [
     logoSrc: "/psp_investments_logo.png",
     logoAlt: "PSP Investments Logo",
     bullets: [
-      "Architected alpha-signal research ETL pipeline answering 3,000+ analyst questions per batch.",
-      "Reinforced processing with claimification-based cross-referencing for all answering achieving 100% factual accuracy.",
-      "Built Scala layers in neural retrievers for preprocessing & learned query routing cutting batch inference 20→3 min.",
+      "Architected α-signal pipeline on Databricks using Delta Lake and Apache Spark for distributed orchestration; implemented asynchronous multi-stage parallel retrievers with Azure OpenAI Batch and trained ranking, answering 3,000+ analyst questions per batch.",
+      "Reinforced answers with Microsoft Claimification extracted and cross-referenced claims with parallelised compliment retrieving; internal benchmarking achieved 99% entailment, 91.8% accuracy, 91.2% macro-F1 and ≤5.4% ambiguity.",
+      "Built a Scala-based retrieval optimization layer leveraging MLlib MinHashLSH deduplication and learned query routing; reduced cross-retriever collisions by 58% and improved evidence latency from 20 to 3 minutes.",
     ],
   },
   {
@@ -106,9 +116,8 @@ export const experiences: ExperienceItem[] = [
     logoSrc: "/university_of_toronto_logo.png",
     logoAlt: "University of Toronto Logo",
     bullets: [
-      "Deployed tri-campus RAG chatbot framework; automated CI/CD for indexing, evals, and releases, cut release lead-time by 60% (5d→2d).",
-      "Delivered a distributed, hierarchical retrieval system supporting multi-tenant chat.",
-      "Exposed library GPU cluster via REST control plane for LLM fine-tuning with job scheduling and telemetry.",
+      "Delivered a multi-tenant RAG chatbot with LangChain routing on Pinecone namespaces; indexed Microsoft 365 SharePoint via Microsoft Graph (delta sync) and ServiceNow Knowledge API; tracked retrieval metadata in Postgres.",
+      "Shipped CI/CD for RAG (GitHub Actions + RAGAS evals) with automated index refresh and Unsloth-based GPU fine-tuning (QLoRA); instrumented pipelines with OpenTelemetry and monitored via Prometheus, cutting release time by 60%.",
     ],
   },
   {
@@ -119,8 +128,8 @@ export const experiences: ExperienceItem[] = [
     logoSrc: "/ejpratt_logo.png",
     logoAlt: "E.J. Pratt Institute Logo",
     bullets: [
-      "Developed version control scheduling system with an optimised Random Forest allocator 6× faster allocation & 12% more coverage.",
-      "Shipped an OAuth-secured ticketing system for IT desk at E.J. Pratt. Used MongoDB and Redis for persistent storage and session management which reduced IT desk resolution time by 40% (3d→1.8d).",
+      "Developed a version-control employee scheduling system that automates shift assignments from submitted availability; integrated a Random Forest model for reasoning-based optimization using historical performance data, improving shift coverage by 12%.",
+      "Implemented OAuth-secured ticketing system with REST endpoints for ticket creation and updates; stored records in MongoDB, managed sessions with Redis, and synced analytics to Google Sheets, reducing IT desk resolution time by 40% (3d→1.8d).",
     ],
   },
 ];
