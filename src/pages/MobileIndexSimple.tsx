@@ -37,8 +37,10 @@ const MobileIndexSimple = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="px-6 py-8 text-center space-y-2 border-b border-border bg-card/50 relative">
-        <div className="absolute top-4 right-4 z-50 flex items-center gap-2">
+        <div className="absolute top-4 left-4 z-50">
           <WebringWidget />
+        </div>
+        <div className="absolute top-4 right-4 z-50">
           <ThemeToggle />
         </div>
         <p className="text-xs tracking-wide text-muted-foreground uppercase">
