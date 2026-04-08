@@ -3,6 +3,7 @@ import TerminalWindow from "@/components/TerminalWindow";
 import CommandMenu from "@/components/CommandMenu";
 import ChatWindow from "@/components/ChatWindow";
 import ThemeToggle from "@/components/ThemeToggle";
+import WebringWidget from "@/components/WebringWidget";
 
 const Index = () => {
   const [showChat, setShowChat] = useState(false);
@@ -279,7 +280,8 @@ const Index = () => {
     <div className="min-h-screen bg-background p-1 md:p-2">
       {/* Header */}
       <header className="mb-2 text-center relative">
-        <div className="absolute top-0 right-0 z-50">
+        <div className="absolute top-0 right-0 z-50 flex items-center gap-2">
+          <WebringWidget />
           <ThemeToggle />
         </div>
         <h1 className="text-3xl md:text-6xl font-bold text-primary mb-1 typing-animation cursor-blink">
