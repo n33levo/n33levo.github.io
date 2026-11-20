@@ -10,6 +10,8 @@ interface CommandMenuProps {
 const commands = [
   { cmd: "cat about.txt", desc: "About me" },
   { cmd: "cat experience.txt", desc: "Work experience" },
+  { cmd: "cat research.txt", desc: "Research" },
+  { cmd: "cat publications.txt", desc: "Preprints & Scholar" },
   { cmd: "cat education.txt", desc: "Education" },
   { cmd: "cat achievements.txt", desc: "Awards & achievements" },
   { cmd: "ls ./skills/", desc: "Technical skills" },

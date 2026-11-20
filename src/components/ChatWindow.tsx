@@ -1,318 +1,146 @@
 import { useState, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
+import { API_BASE, chatEndpoint, safeUrl, type ChatEvent, type Proposal, type Source } from "@/lib/chat";
+import { readSSE } from "@/lib/sse";
 
 interface Message {
-  id: number;
-  text: string;
-  sender: "user" | "ai";
-  timestamp?: Date;
-  isStreaming?: boolean;
-  statusMessage?: string;
+  id: string; text: string; sender: "user" | "ai";
+  error?: string; sources?: Source[]; proposal?: Proposal;
+  booking?: "pending" | "confirming" | "booked"; bookingError?: string; meetingUrl?: string;
 }
-
 interface ChatWindowProps {
-  onClose: () => void;
-  onMinimize: () => void;
-  onMaximize: () => void;
-  title?: string;
-  initialMessage?: string;
-  endpoint?: string;
-  sessionPrefix?: string;
-  placeholder?: string;
-  sendLabel?: string;
-  streamingDelayMs?: number;
+  onClose?: () => void; onMinimize?: () => void; onMaximize?: () => void;
+  title?: string; initialMessage?: string; endpoint?: string; sessionPrefix?: string;
+  placeholder?: string; sendLabel?: string;
 }
 
-const DEFAULT_INITIAL_MESSAGE =
-  "Hey, I'm Chai ☕ — your chat buddy living on Neel's site. I vibe with Dostoevsky, Kafka, Nietzsche, Freud, and Marx — Neel's favorites. We can talk about anything.";
-const DEFAULT_ENDPOINT = "https://chatbot-backend-production-55e2.up.railway.app/chat/stream";
-
-const ChatWindow = ({
-  onClose,
-  onMinimize,
-  onMaximize,
-  title = "chai",
-  initialMessage = DEFAULT_INITIAL_MESSAGE,
-  endpoint = DEFAULT_ENDPOINT,
-  sessionPrefix = "session",
-  placeholder = "Type a message...",
-  sendLabel = "Send",
-  streamingDelayMs = 20,
-}: ChatWindowProps) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: initialMessage,
-      sender: "ai",
-      timestamp: new Date(),
-    },
-  ]);
+export default function ChatWindow({ onClose, onMinimize, onMaximize, title = "chai",
+  initialMessage = "Hi, I'm Chai, an AI companion on Neel's site. We can talk about ideas, his work, or whatever you're curious about.",
+  endpoint = chatEndpoint("chai"), sessionPrefix = "chai", placeholder = "Type a message…", sendLabel = "Send",
+}: ChatWindowProps) {
+  const greeting = (): Message => ({ id: crypto.randomUUID(), text: initialMessage, sender: "ai" });
+  const storageKey = `portfolio-chat-v3:${sessionPrefix}`;
+  const [saved] = useState(() => {
+    try {
+      const value = JSON.parse(sessionStorage.getItem(storageKey) || "null");
+      if (value && typeof value.sessionId === "string" && Array.isArray(value.messages)) return value as { sessionId: string; messages: Message[] };
+    } catch { /* Storage can be unavailable in private browsers. */ }
+    return { sessionId: crypto.randomUUID(), messages: [greeting()] };
+  });
+  const sessionId = useRef(saved.sessionId);
+  const [messages, setMessages] = useState<Message[]>(saved.messages);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [streamingStatus, setStreamingStatus] = useState<string>("Streaming...");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const sessionId = useRef(
-    `${sessionPrefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-  );
+  const [status, setStatus] = useState("Thinking…");
+  const controller = useRef<AbortController | null>(null);
+  const pending = useRef(false);
+  const messagesEnd = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => { messagesEnd.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, status]);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (isLoading) return;
+    try { sessionStorage.setItem(storageKey, JSON.stringify({ sessionId: sessionId.current, messages: messages.slice(-60) })); }
+    catch { /* Chat still works if storage is full or disabled. */ }
+  }, [messages, isLoading, storageKey]);
 
-  const sendMessageToAPIStream = async (message: string, onChunk: (chunk: string) => void, onStatusChange?: (status: string) => void): Promise<void> => {
+  const update = (id: string, patch: Partial<Message>) => setMessages(current => current.map(m => m.id === id ? { ...m, ...patch } : m));
+
+  async function send() {
+    const text = input.trim();
+    if (!text || pending.current) return;
+    pending.current = true;
+    const id = crypto.randomUUID();
+    setMessages(current => [...current, { id: crypto.randomUUID(), text, sender: "user" }, { id, text: "", sender: "ai" }]);
+    setInput(""); setIsLoading(true); setStatus("Thinking…");
+    const abort = new AbortController(); controller.current = abort;
+    let timedOut = false;
+    const timeout = setTimeout(() => { timedOut = true; abort.abort(); }, 95000);
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache',
-        },
-        body: JSON.stringify({
-          message: message,
-          session_id: sessionId.current
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) {
-        throw new Error('No reader available');
-      }
-
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n\n');
-          buffer = lines.pop() || '';
-
-          for (const line of lines) {
-            if (line.trim().startsWith('data: ')) {
-              try {
-                const jsonStr = line.trim().slice(6);
-                if (jsonStr) {
-                  const data = JSON.parse(jsonStr);
-                  if (data.error) {
-                    onChunk(data.error);
-                    return;
-                  }
-                  if (data.content) {
-                    // Check for status messages in brackets and update status indicator
-                    const statusMatch = data.content.match(/\[([^\]]+)\.\.\.\]/);
-                    if (statusMatch && onStatusChange) {
-                      onStatusChange(statusMatch[1] + "...");
-                      // Don't add the bracketed status to the message - skip this chunk
-                      await new Promise(resolve => setTimeout(resolve, streamingDelayMs));
-                      continue;
-                    }
-                    onChunk(data.content);
-                    // Add a small delay to make streaming more visible
-                    await new Promise(resolve => setTimeout(resolve, streamingDelayMs));
-                  }
-                  if (data.done) {
-                    if (onStatusChange) {
-                      onStatusChange("Streaming...");
-                    }
-                    return;
-                  }
-                }
-              } catch (e) {
-                console.error('Error parsing chunk:', e, 'Line:', line);
-              }
-            }
-          }
-        }
-      } finally {
-        reader.releaseLock();
-      }
+      const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, session_id: sessionId.current }), signal: abort.signal });
+      await readSSE<ChatEvent>(response, event => {
+        if (event.error) throw new Error(event.error);
+        if (event.content) setMessages(current => current.map(m => m.id === id ? { ...m, text: m.text + event.content } : m));
+        if (event.status) setStatus(event.status);
+        if (event.sources) update(id, { sources: event.sources });
+        if (event.proposal) update(id, { proposal: event.proposal, booking: "pending" });
+      }, abort.signal);
     } catch (error) {
-      console.error('Error streaming message:', error);
-      onChunk("Sorry, I'm having trouble connecting to the server. Please check your internet connection.");
+      const reason = abort.signal.aborted ? (timedOut ? "The response timed out. Please retry." : "Response stopped.") : error instanceof Error ? error.message : "Couldn't connect to the chat server. Please retry.";
+      update(id, { error: reason });
+      if (!abort.signal.aborted || timedOut) setInput(current => current || text);
+    } finally {
+      clearTimeout(timeout); controller.current = null; pending.current = false; setIsLoading(false);
+      inputRef.current?.focus();
     }
-  };
+  }
 
-  const handleSend = async () => {
-    if (input.trim() && !isLoading) {
-      const userMessage = input.trim();
-      const newMessage: Message = {
-        id: Date.now(),
-        text: userMessage,
-        sender: "user",
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, newMessage]);
-      setInput("");
-      setIsLoading(true);
-
-      // Reset textarea height
-      if (textareaRef.current) {
-        textareaRef.current.style.height = '40px';
-      }
-
-      // Create AI message placeholder without timestamp
-      const aiMessageId = Date.now() + 1;
-      const aiMessage: Message = {
-        id: aiMessageId,
-        text: "",
-        sender: "ai",
-        isStreaming: true,
-      };
-      setMessages(prev => [...prev, aiMessage]);
-
-      try {
-        setStreamingStatus("Streaming...");
-        await sendMessageToAPIStream(
-          userMessage,
-          (chunk: string) => {
-            setMessages(prev => prev.map(msg =>
-              msg.id === aiMessageId
-                ? { ...msg, text: msg.text + chunk }
-                : msg
-            ));
-          },
-          (status: string) => {
-            setStreamingStatus(status);
-          }
-        );
-
-        // Add timestamp when streaming is complete
-        setMessages(prev => prev.map(msg =>
-          msg.id === aiMessageId
-            ? { ...msg, timestamp: new Date(), isStreaming: false }
-            : msg
-        ));
-      } catch (error) {
-        setMessages(prev => prev.map(msg =>
-          msg.id === aiMessageId
-            ? {
-                ...msg,
-                text: "Sorry, I encountered an error. Please try again.",
-                timestamp: new Date(),
-                isStreaming: false
-              }
-            : msg
-        ));
-      } finally {
-        setIsLoading(false);
-        setStreamingStatus("Streaming...");
-      }
+  async function confirm(message: Message) {
+    if (!message.proposal || pending.current) return;
+    pending.current = true;
+    setIsLoading(true); setStatus("Confirming meeting…");
+    update(message.id, { booking: "confirming", bookingError: undefined });
+    const abort = new AbortController(); controller.current = abort;
+    const timeout = setTimeout(() => abort.abort(), 35000);
+    try {
+      const response = await fetch(`${API_BASE}/actions/confirm`, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ proposal_id: message.proposal.id, session_id: sessionId.current }), signal: abort.signal });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.detail || "Confirmation failed. Retry this proposal.");
+      update(message.id, { booking: "booked", meetingUrl: safeUrl(data.meet_link || data.html_link) });
+    } catch (error) {
+      update(message.id, { booking: "pending", bookingError: error instanceof Error && error.name !== "AbortError" ? error.message : "Confirmation is unverified. Retry this proposal; duplicate invites are prevented." });
+    } finally {
+      clearTimeout(timeout); pending.current = false; controller.current = null; setIsLoading(false);
     }
-  };
+  }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  return (
-    <div className="h-full flex flex-col bg-card border border-border rounded-lg overflow-hidden">
-      {/* Window Header with Functional Buttons */}
-      <div className="bg-muted px-4 py-2 flex items-center justify-between border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-2">
-            <button
-              onClick={onClose}
-              className="w-3 h-3 rounded-full bg-destructive hover:bg-red-600 transition-colors cursor-pointer"
-              title="Close"
-            />
-            <button
-              onClick={onMinimize}
-              className="w-3 h-3 rounded-full bg-terminal-yellow hover:bg-yellow-500 transition-colors cursor-pointer"
-              title="Minimize"
-            />
-            <button
-              onClick={onMaximize}
-              className="w-3 h-3 rounded-full bg-terminal-green hover:bg-green-500 transition-colors cursor-pointer"
-              title="Maximize"
-            />
-          </div>
-          <div className="text-sm text-muted-foreground ml-4 font-medium">
-            {title}
-          </div>
-        </div>
+  return <div className="h-full flex flex-col bg-card border border-border rounded-lg overflow-hidden">
+    <div className="bg-muted px-4 py-2 flex items-center justify-between gap-2 border-b border-border">
+      <div className="flex items-center gap-2">
+        {[[onClose, "Close", "bg-destructive"], [onMinimize, "Minimize", "bg-terminal-yellow"], [onMaximize, "Maximize", "bg-terminal-green"]].map(([handler, label, color]) =>
+          <button key={label as string} onClick={handler as (() => void) | undefined} aria-label={label as string} title={label as string} className={`w-3 h-3 rounded-full ${color}`} />)}
+        <span className="text-sm text-muted-foreground ml-2">{title}</span>
       </div>
-
-      {/* Chat Messages */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-3">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-xs px-3 py-2 rounded-lg ${
-                message.sender === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-foreground"
-              }`}
-            >
-              <div className="text-sm whitespace-pre-wrap">{message.text}</div>
-              {message.timestamp && (
-                <div className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString()}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-muted text-foreground px-3 py-2 rounded-lg">
-              <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-foreground"></div>
-                <span className="text-sm">{streamingStatus}</span>
-              </div>
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Input Area */}
-      <div className="p-4 border-t border-border">
-        <div className="flex gap-2 items-end">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder={placeholder}
-            rows={1}
-            className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none min-h-[40px] max-h-[120px] overflow-y-auto"
-            style={{
-              height: '40px',
-              minHeight: '40px',
-            }}
-            onInput={(e) => {
-              const target = e.target as HTMLTextAreaElement;
-              target.style.height = '40px';
-              target.style.height = Math.min(target.scrollHeight, 120) + 'px';
-            }}
-          />
-          <Button 
-            onClick={handleSend} 
-            className="px-4 py-2 h-10 flex-shrink-0"
-            disabled={!input.trim() || isLoading}
-          >
-            {isLoading ? "..." : sendLabel}
-          </Button>
-        </div>
-      </div>
+      <button disabled={isLoading} className="text-sm underline disabled:opacity-50" onClick={() => { sessionId.current = crypto.randomUUID(); setMessages([greeting()]); setInput(""); }}>New chat</button>
     </div>
-  );
-};
-
-export default ChatWindow;
+    <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4" role="log" aria-label="Conversation">
+      {messages.map(message => <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
+        <div className={`max-w-[92%] min-w-0 px-3 py-2 rounded-lg ${message.sender === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
+          {message.sender === "user" ? <p className="text-base whitespace-pre-wrap break-words">{message.text}</p> :
+            <div className="prose prose-sm dark:prose-invert max-w-none text-base break-words prose-p:my-2 prose-headings:my-3 prose-a:text-primary prose-pre:overflow-x-auto">
+              <ReactMarkdown remarkPlugins={[remarkGfm]} skipHtml components={{
+                a: ({ href, children }) => <a href={href ? safeUrl(href) : undefined} target="_blank" rel="noopener noreferrer">{children}</a>,
+                img: ({ alt }) => <span>{alt}</span>,
+                table: ({ children }) => <div className="overflow-x-auto"><table>{children}</table></div>,
+              }}>{message.text}</ReactMarkdown>
+            </div>}
+          {message.error && <p role="alert" className="text-sm mt-2 text-destructive">{message.error}</p>}
+          {!!message.sources?.length && <div className="mt-3 flex flex-wrap gap-2" aria-label="Sources">{message.sources.filter(s => safeUrl(s.url)).map(source => <a key={source.url} href={safeUrl(source.url)} target="_blank" rel="noopener noreferrer" className="text-sm underline text-primary">{source.title}</a>)}</div>}
+          {message.proposal && <div className="mt-3 border border-border p-3 rounded space-y-2">
+            <p className="font-semibold">{message.proposal.meeting_type}</p>
+            <p>{message.proposal.attendee_name} · {message.proposal.attendee_email}</p>
+            <p>{new Date(message.proposal.start_time).toLocaleString("en-CA", { timeZone: "America/Toronto", dateStyle: "medium", timeStyle: "short" })} (Toronto) · 15 minutes</p>
+            {message.booking === "booked" ? <p>Meeting booked. {message.meetingUrl && <a href={message.meetingUrl} target="_blank" rel="noopener noreferrer" className="underline text-primary">Open meeting</a>}</p> : <>
+              <p className="text-sm text-muted-foreground">Confirming sends a calendar invitation to this email.</p>
+              <Button disabled={isLoading} onClick={() => confirm(message)}>{message.booking === "confirming" ? "Confirming…" : "Confirm meeting"}</Button>
+            </>}
+            {message.bookingError && <p role="alert" className="text-sm text-destructive">{message.bookingError}</p>}
+          </div>}
+        </div>
+      </div>)}
+      {isLoading && <p role="status" className="text-sm text-muted-foreground">{status}</p>}
+      <div ref={messagesEnd} />
+    </div>
+    <form className="p-4 border-t border-border flex gap-2 items-end" onSubmit={e => { e.preventDefault(); void send(); }}>
+      <textarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)} maxLength={6000} aria-label="Message" rows={2}
+        placeholder={placeholder} className="flex-1 min-w-0 px-3 py-2 border border-border rounded-md bg-background text-base resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+        onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); void send(); } }} />
+      {isLoading ? <Button type="button" variant="outline" onClick={() => controller.current?.abort()}>Stop</Button> : <Button type="submit" disabled={!input.trim()}>{sendLabel}</Button>}
+    </form>
+  </div>;
+}

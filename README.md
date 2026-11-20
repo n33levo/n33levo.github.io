@@ -1,20 +1,30 @@
-# Portfolio and AI Assistant
+# Neel's portfolio
 
- site: https://n33levo.github.io/
+React 18 + TypeScript + Vite 8 + React Router 7, deployed at https://n33levo.github.io/. The separate FastAPI service in `../chatbot-backend` supplies Chai and the recruiter assistant.
 
-## Tech Stack
+Use Node 22.18+ (Node 24 is used for verification).
 
-### Frontend
-- Languages: JavaScript, TypeScript
-- Framework: React
-- Build Tool: Vite
-- Styling: Tailwind CSS
-- UI Components: shadcn/ui
+```sh
+npm ci
+npm run dev          # http://localhost:8080
+npm run typecheck
+npm test
+npm run build
+```
 
-### Backend
-- Language: Python
-- Framework: FastAPI
-- Database: SQLite
-- API Integration: GROQ API for AI responses
-- Deployment: Railway
-- CORS: Configured for cross-origin requests from the frontend
+Use `../start_chatbot.sh` to start both services. Development chat targets localhost:8000. A production build targets the existing Railway service unless `VITE_API_BASE_URL` is supplied. Never put provider secrets in a `VITE_*` variable: Vite exposes those values publicly.
+
+- `/`: terminal interface on desktop, readable portfolio on mobile.
+- `/mobile`: readable portfolio at any screen size.
+- `/chai`: general conversation companion.
+- `/ai`: professional representative, research and project questions, optional confirmed meeting proposals.
+
+`src/data/portfolio.json` is the canonical professional content. `src/data/profile.ts` adds typed exports and the personal introduction. `PortfolioSection.tsx` renders it in both layouts. After editing professional facts, run `python3 ../sync_profile.py` to update the backend snapshot; `--check` detects drift. `public/resume.pdf` is the downloadable resume.
+
+`ChatWindow.tsx` renders streamed answers, sources, errors, and meeting proposals. `src/lib/sse.ts` parses streaming events across arbitrary transport chunks. Conversations and random session IDs are preserved in browser session storage; New chat starts a fresh session. The Stop action aborts the active request. Only a separate Confirm meeting click calls the calendar write endpoint.
+
+The webring widget and external script are removed. Existing terminal personality, archived projects, theme support, and dog photos remain. `love/neo-command-pet-main` in the parent folder is an archived prototype and should not be deployed as this application.
+
+Builds are local until the existing `npm run deploy` workflow is explicitly run. Publish the backend first when introducing the new chat protocol. Both logo assets (`lyft_logo.jpeg`, `shopify_logo.jpeg`) must be included when committing this update.
+
+Compatible security updates plus patched Vite/router releases removed all high-severity findings from the npm audit. Eleven moderate development-dependency findings remain in CSS/lint tooling and their transitive packages; no forced transitive major overrides were applied.

@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import ChatWindow from "@/components/ChatWindow";
+import { lazy } from "react";
+const ChatWindow = lazy(() => import("@/components/ChatWindow"));
+import { chatEndpoint } from "@/lib/chat";
 
 const CHAI_GREETING =
   "Hey, I'm Chai ☕ — your chat buddy living on Neel's site. I vibe with Dostoevsky, Kafka, Nietzsche, Freud, and Marx — Neel's favorites. We can talk about anything… even Neel himself, if you're curious.";
@@ -85,11 +87,10 @@ const ChaiClassic = () => {
             onMaximize={handleMaximize}
             title="chai"
             initialMessage={CHAI_GREETING}
-            endpoint="https://chatbot-backend-production-55e2.up.railway.app/chat/stream"
+            endpoint={chatEndpoint("chai")}
             sessionPrefix="chai"
             placeholder="Type a message..."
             sendLabel="Send"
-            streamingDelayMs={20}
           />
         </div>
       </main>

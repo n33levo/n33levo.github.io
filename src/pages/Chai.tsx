@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import ChatWindow from "@/components/ChatWindow";
+import { lazy } from "react";
+const ChatWindow = lazy(() => import("@/components/ChatWindow"));
+import { chatEndpoint } from "@/lib/chat";
 
 const Chai = () => {
   const navigate = useNavigate();
@@ -81,12 +83,11 @@ const Chai = () => {
             onMinimize={handleMinimize}
             onMaximize={handleMaximize}
             title="ai rep"
-            initialMessage="Hi — I'm Neel's AI representative. I can answer questions about his experience and help you schedule a meeting with him. What would you like to know?"
-            endpoint="https://chatbot-backend-production-55e2.up.railway.app/recruiter-smart/stream"
+            initialMessage="Hi — I'm Neel's AI representative. I can answer questions about his work at Lyft and Shopify, research, preprints, and projects. What would you like to know?"
+            endpoint={chatEndpoint("recruiter")}
             sessionPrefix="ai-rep"
-            placeholder="Ask about Neel or book a meeting..."
+            placeholder="Ask about experience, research, or projects…"
             sendLabel="Ask"
-            streamingDelayMs={15}
           />
         </div>
       </main>

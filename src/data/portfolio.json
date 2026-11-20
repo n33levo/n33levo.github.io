@@ -1,0 +1,331 @@
+{
+  "updatedAt": "2026-11-19",
+  "source": "Resumes.pdf supplied by Neel; publication metadata checked against arXiv",
+  "identity": {
+    "name": "Sohail (Neel) Sarkar",
+    "preferredName": "Neel",
+    "location": "Toronto, ON",
+    "email": "sohail.sarkar@utoronto.ca",
+    "website": "https://n33levo.github.io",
+    "scholar": "https://scholar.google.ca/citations?user=anIa6FYAAAAJ&hl=en",
+    "summary": "Applied mathematics and computer science student at the University of Toronto. Previously Applied AI at Lyft, Applied ML at Shopify, and Applied Scientist at Sigma Squared. Research at the PMCC AI Lab, University Health Network; preprints spanning geometry, quantum learning, statistical evaluation, imaging, and genomics.",
+    "interests": [
+      "Machine learning",
+      "Mathematical proofs",
+      "Retrieval and compression",
+      "Compilers and inference",
+      "Classical guitar",
+      "Camus, Dostoevsky, and Ruskin Bond",
+      "Snowy and Pluto"
+    ]
+  },
+  "experiences": [
+    {
+      "role": "Applied AI Intern",
+      "organization": "Lyft",
+      "location": "Toronto, ON",
+      "dates": "Jun – Sept 2026",
+      "logoSrc": "/lyft_logo.jpeg",
+      "logoAlt": "Lyft logo",
+      "bullets": [
+        "Engineered a rider-history and offer-response cross-feature for a production LightGBM ranker, delivering 227 bps mean AP lift across five seeds, validated with leave-one-out ablations and leakage checks.",
+        "Built a mixture-of-experts ranker with 15 specialist LightGBM models and a learned per-rider gate. Reached 322 bps AP lift in a single offline study; selected a consolidated 271-bps model for production latency constraints.",
+        "Unblocked a Spark feature pipeline stalled for seven weeks by tracing driver OOMs to insufficient heap memory, then tuning driver memory, shuffle partitions, dynamic allocation, and adaptive coalescing."
+      ]
+    },
+    {
+      "role": "Applied ML Intern",
+      "organization": "Shopify",
+      "location": "Toronto, ON",
+      "dates": "May 2026",
+      "logoSrc": "/shopify_logo.jpeg",
+      "logoAlt": "Shopify logo",
+      "bullets": [
+        "Worked on search, personalization, and recommendation for consumer-facing agents. Connected conversational buyer memory to user profiles with evaluation and distillation quality loops across Rails, GraphQL, gRPC, and LLM orchestration.",
+        "Shipped 22 production PRs in 15 days across features, resiliency, and performance; delivered a four-month Agentic Buyer Persona roadmap in under 10 days with fewer than 12,000 lines of code."
+      ]
+    },
+    {
+      "role": "Applied Scientist Intern",
+      "organization": "Sigma Squared, EO Ventures",
+      "location": "Boston, MA",
+      "dates": "Jun 2025 – Apr 2026",
+      "logoSrc": "/sigmasquared_logo.png",
+      "logoAlt": "Sigma Squared logo",
+      "bullets": [
+        "Engineered an agentic EDA-to-ETL pipeline over workforce data in PySpark with MLflow, Optuna, ensemble calibration, Airflow, and Kafka. Co-authored an MCP-based SDK across 50+ workflows, reducing variance 27% and RMSE 8% at 99.95% SLA and sub-100ms latency.",
+        "Contributed to proprietary research on econometric clustering of talent-signal embeddings, with PyMC/Statsmodels calibration, DVC tracking, and Kubernetes inference."
+      ]
+    },
+    {
+      "role": "Data Science Intern",
+      "organization": "PSP Investments",
+      "location": "Montréal, QC",
+      "dates": "May – Jul 2025",
+      "logoSrc": "/psp_investments_logo.png",
+      "logoAlt": "PSP Investments logo",
+      "bullets": [
+        "Architected an alpha-signal retrieval pipeline on Databricks with Delta Lake, Spark, asynchronous multi-stage retrieval, and Azure OpenAI Batch with Claimification. Reached 99% entailment, 97.8% accuracy, and 96.4% macro-F1 across 3,000+ questions per batch.",
+        "Built Scala retrieval optimization with MLlib MinHashLSH deduplication and learned query routing, reducing cross-retriever collisions 58% and latency from 20 minutes to 3 minutes."
+      ]
+    },
+    {
+      "role": "Student MLOps Developer",
+      "organization": "University of Toronto",
+      "location": "Toronto, ON",
+      "dates": "Jan – Apr 2025",
+      "logoSrc": "/university_of_toronto_logo.png",
+      "logoAlt": "University of Toronto logo",
+      "bullets": [
+        "Shipped an internal multi-tenant RAG chat over Pinecone namespaces, indexing SharePoint and ServiceNow. Delivered GitHub Actions CI/CD, RAGAS evaluations, Unsloth QLoRA fine-tuning, and OpenTelemetry, cutting release time 60%."
+      ]
+    },
+    {
+      "role": "Student Software Engineer",
+      "organization": "E.J. Pratt Library, University of Toronto",
+      "location": "Toronto, ON",
+      "dates": "Sept – Dec 2024",
+      "logoSrc": "/ejpratt_logo.png",
+      "logoAlt": "E.J. Pratt Library logo",
+      "bullets": [
+        "Built a version-controlled scheduling system with a Random Forest optimizer and an OAuth-secured ticketing REST API using MongoDB and Redis, improving shift coverage 12% and reducing resolution time 40% (3 days to 1.8 days)."
+      ]
+    }
+  ],
+  "research": [
+    {
+      "role": "Volunteer Research Intern",
+      "organization": "PMCC AI Lab, University Health Network",
+      "location": "Toronto, ON",
+      "dates": "Nov 2025 – Present",
+      "logoSrc": "/uhn_logo.png",
+      "logoAlt": "University Health Network logo",
+      "bullets": [
+        "Working under Dr. Shakuntala Baichoo and with Dr. Bo Wang on variant-to-gene discovery frameworks using distributed cloud infrastructure, probabilistic fine-mapping, and agentic functional reasoning."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Toronto",
+      "location": "Toronto, ON",
+      "details": "H.B.Sc. Applied Mathematics & Computer Science — Expected May 2027 · International Scholar (CAD $100K)",
+      "logoSrc": "/university_of_toronto_logo.png",
+      "logoAlt": "University of Toronto logo"
+    },
+    {
+      "institution": "Trinity College of Music",
+      "location": "London, England",
+      "details": "ACTL Classical Guitar — Sept 2018 – Jun 2021",
+      "logoSrc": "/trinity_college_london_logo.png",
+      "logoAlt": "Trinity College of Music logo"
+    }
+  ],
+  "publications": [
+    {
+      "id": "2611.01461",
+      "title": "An auditable agentic pipeline for variant-to-gene prioritisation, validated against orthogonal functional evidence",
+      "authors": "Shakuntala Baichoo, Sohail (Neel) Sarkar, Bo Wang",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2611.01461",
+      "summary": "Evaluates an auditable variant-to-gene pipeline against functional evidence. Ablations distinguish gains from recall of known gene associations from gains due to the retrieved evidence."
+    },
+    {
+      "id": "2610.23912",
+      "title": "Junction Geometry Survives an Unidentifiable Blur",
+      "authors": "Sohail (Neel) Sarkar, Shakuntala Baichoo",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2610.23912",
+      "summary": "Studies recovery of junction arm counts and directions despite unknown Gaussian-mixture blur, with statistical guarantees and evaluations on microscopy localizations and X-ray spectra."
+    },
+    {
+      "id": "2610.14032",
+      "title": "Polygons and coplanar points on submanifolds of codimension 2",
+      "authors": "Sohail (Neel) Sarkar",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2610.14032",
+      "summary": "Proves that smooth codimension-two submanifolds in dimensions n ≥ 6 contain affinely regular pentagons locally, addressing Problem 73 on Green’s list. Extends the argument to prime-sided polygons."
+    },
+    {
+      "id": "2609.40190",
+      "title": "Cheap to Draw, Expensive to Trust: Certifying Test-Time Scaling Curves",
+      "authors": "Sohail (Neel) Sarkar, Shakuntala Baichoo",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2609.40190",
+      "summary": "Develops simultaneous confidence bands and sample-efficient audits for test-time scaling curves, accounting for budget selection and differences between benchmark questions."
+    },
+    {
+      "id": "2606.02655",
+      "title": "Coherent Swap Regret and Channel-Proof Learning",
+      "authors": "Sohail Sarkar",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2606.02655",
+      "summary": "Introduces coherent swap regret against local CPTP deviations in quantum games, with an O(√(dT log d)) algorithm via entropic mirror ascent."
+    },
+    {
+      "id": "2605.00918",
+      "title": "Visibility Cliques, Cubic Containers, and Dense Orchard Cores",
+      "authors": "Sohail Sarkar",
+      "year": 2026,
+      "status": "Preprint",
+      "url": "https://arxiv.org/abs/2605.00918",
+      "summary": "Proves quantitative cases of the Big-Line–Big-Clique Conjecture in structured geometric regimes using cubic containers and dense orchard cores. The full conjecture remains open."
+    }
+  ],
+  "projects": [
+    {
+      "id": "computeros",
+      "filename": "ComputerOS — Mar 2026",
+      "href": null,
+      "technologies": [
+        "Rust",
+        "UEFI",
+        "Gemma 4",
+        "int4",
+        "QJL",
+        "KV cache"
+      ],
+      "description": [
+        "Built a bare-metal OS in Rust where an LLM is the kernel, booting through UEFI/USB and running a Gemma 4 E2B forward pass with int4 weights.",
+        "Implemented a Turbo-Quant QJL-compressed KV cache (approximately 9× key and 13× value compression), validated by 109 tests across five crates."
+      ]
+    },
+    {
+      "id": "refrag-lite",
+      "filename": "RefRag-lite — Oct 2025",
+      "href": "https://github.com/n33levo/refrag-lite",
+      "technologies": [
+        "LinUCB / PPO",
+        "PyTorch",
+        "Transformers",
+        "PEFT",
+        "FAISS"
+      ],
+      "description": [
+        "Built a context-compression layer encoding chunks into dense vectors, with reinforcement learning policies that expand high-value spans under token budgets.",
+        "Achieved 67% token reduction and 3× throughput while preserving QA accuracy, validated through ablations and metric-driven evaluations."
+      ]
+    },
+    {
+      "id": "kernelforgeml",
+      "filename": "KernelForgeML — Sept 2025",
+      "href": "https://github.com/n33levo/KernelForgeML",
+      "technologies": [
+        "Rust",
+        "MLIR",
+        "Rayon",
+        "wgpu / Metal",
+        "safetensors"
+      ],
+      "description": [
+        "Built a Rust ML compiler with MLIR-based intermediate representation, three kernel variants, auto-tuning, and CPU/GPU backends.",
+        "Implemented an LLM inference pipeline with KV cache and RoPE, a benchmarking suite, and Cerebras API integration."
+      ]
+    },
+    {
+      "id": "sonofmagnus",
+      "filename": "sonofmagnus — Jul 2025",
+      "href": "https://github.com/n33levo/sonofmagnus",
+      "technologies": [
+        "PyTorch",
+        "ResNet",
+        "Q-value learning",
+        "INT8",
+        "ONNX"
+      ],
+      "description": [
+        "Built a searchless chess engine reported at approximately 2500 Elo, using multi-task Q-value distillation from Stockfish.",
+        "Trained on 70M+ positions and optimized inference to under 100ms per move with INT8 quantization and ONNX export."
+      ]
+    }
+  ],
+  "skills": {
+    "Languages": [
+      "Python",
+      "Go",
+      "Ruby",
+      "Rust",
+      "Bash",
+      "TypeScript",
+      "C/C++",
+      "Scala",
+      "SQL",
+      "Assembly"
+    ],
+    "ML & deep learning": [
+      "PyTorch",
+      "TensorFlow",
+      "CUDA",
+      "Hugging Face",
+      "vLLM",
+      "Triton",
+      "LangChain",
+      "scikit-learn",
+      "XGBoost",
+      "LightGBM"
+    ],
+    "MLOps & infrastructure": [
+      "MLflow",
+      "Optuna",
+      "Airflow",
+      "Kafka",
+      "Spark",
+      "Databricks",
+      "Docker",
+      "Kubernetes",
+      "GitHub Actions",
+      "OpenTelemetry"
+    ],
+    "Data & backend": [
+      "Delta Lake",
+      "Neo4j",
+      "Pinecone",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "dbt",
+      "FastAPI",
+      "Rails",
+      "FastMCP",
+      "GraphQL",
+      "REST"
+    ]
+  },
+  "socials": [
+    {
+      "label": "Email",
+      "value": "sohail.sarkar@utoronto.ca",
+      "href": "mailto:sohail.sarkar@utoronto.ca",
+      "type": "email"
+    },
+    {
+      "label": "Google Scholar",
+      "value": "Publications on Google Scholar",
+      "href": "https://scholar.google.ca/citations?user=anIa6FYAAAAJ&hl=en",
+      "type": "external"
+    },
+    {
+      "label": "GitHub",
+      "value": "github.com/n33levo",
+      "href": "https://github.com/n33levo",
+      "type": "external"
+    },
+    {
+      "label": "LinkedIn",
+      "value": "linkedin.com/in/n33levo",
+      "href": "https://www.linkedin.com/in/n33levo",
+      "type": "external"
+    },
+    {
+      "label": "Instagram",
+      "value": "@s0hail.sarkar",
+      "href": "https://www.instagram.com/s0hail.sarkar/",
+      "type": "external"
+    }
+  ]
+}

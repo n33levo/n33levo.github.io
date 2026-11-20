@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import TerminalWindow from "@/components/TerminalWindow";
 import CommandMenu from "@/components/CommandMenu";
-import ChatWindow from "@/components/ChatWindow";
+import { lazy } from "react";
+const ChatWindow = lazy(() => import("@/components/ChatWindow"));
 import ThemeToggle from "@/components/ThemeToggle";
-import WebringWidget from "@/components/WebringWidget";
 
 const Index = () => {
   const [showChat, setShowChat] = useState(false);
@@ -21,22 +21,15 @@ const Index = () => {
     isTerminalMinimized: boolean;
   } | null>(null);
 
-  // Auto-execute 'cat about.txt' on first mount only
+  // Run once per mount, after the timer fires; StrictMode cleanup must not consume it.
   useEffect(() => {
-    // Check if we've already auto-executed in this session
-    const hasAutoExecuted = sessionStorage.getItem('autoExecutedCatAbout');
-    
-    if (!hasAutoExecuted && !hasAutoExecutedRef.current) {
-      hasAutoExecutedRef.current = true;
-      sessionStorage.setItem('autoExecutedCatAbout', 'true');
-      
-      // Small delay to ensure terminal is ready
-      const timer = setTimeout(() => {
-        setCommandToExecute('cat about.txt');
-      }, 500);
-      
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      if (!hasAutoExecutedRef.current) {
+        hasAutoExecutedRef.current = true;
+        setCommandToExecute("cat about.txt");
+      }
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   // Play bounce sound effect
@@ -281,14 +274,13 @@ const Index = () => {
       {/* Header */}
       <header className="mb-2 text-center relative">
         <div className="absolute top-0 right-0 z-50 flex items-center gap-2">
-          <WebringWidget />
           <ThemeToggle />
         </div>
         <h1 className="text-3xl md:text-6xl font-bold text-primary mb-1 typing-animation cursor-blink">
           Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-xs md:text-sm">
-          Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Applied AI @ Sigma Squared
+          Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Previously Lyft & Shopify · Research @ UHN
         </p>
       </header>
 
