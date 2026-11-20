@@ -54,7 +54,9 @@ export default function ChatWindow({ onClose, onMinimize, onMaximize, title = "c
     pending.current = true;
     const id = crypto.randomUUID();
     setMessages(current => [...current, { id: crypto.randomUUID(), text, sender: "user", timestamp: new Date().toISOString() }, { id, text: "", sender: "ai", isStreaming: true }]);
-    setInput(""); setIsLoading(true); setStatus("Streaming...");
+    setInput("");
+    if (inputRef.current) inputRef.current.style.height = "40px";
+    setIsLoading(true); setStatus("Streaming...");
     const abort = new AbortController(); controller.current = abort;
     let timedOut = false;
     const timeout = setTimeout(() => { timedOut = true; abort.abort(); }, 95000);
@@ -80,7 +82,6 @@ export default function ChatWindow({ onClose, onMinimize, onMaximize, title = "c
     } catch (error) {
       const reason = abort.signal.aborted ? (timedOut ? "The response timed out. Please retry." : "Response stopped.") : error instanceof Error ? error.message : "Couldn't connect to the chat server. Please retry.";
       update(id, { error: reason });
-      if (!abort.signal.aborted || timedOut) setInput(current => current || text);
     } finally {
       update(id, { timestamp: new Date().toISOString(), isStreaming: false });
       clearTimeout(timeout); controller.current = null; pending.current = false; setIsLoading(false);

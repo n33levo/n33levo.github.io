@@ -140,3 +140,47 @@ test('The original wget progress animation completes and requests exactly one re
     assert.equal(downloads,1);
   } finally {if(renderer)act(()=>renderer.unmount());clock.uninstall();}
 });
+
+
+test('Sending clears the composer permanently on success, stream failure, or network failure', async () => {
+  const previousFetch=globalThis.fetch;
+  for (const outcome of ['success','stream-error','network-error']) {
+    setupGlobals();
+    let resolveFetch, rejectFetch;
+    globalThis.fetch=()=>new Promise((resolve,reject)=>{resolveFetch=resolve;rejectFetch=reject;});
+    let renderer, sending;
+    try {
+      act(()=>{renderer=TestRenderer.create(React.createElement(Chat,{streamingDelayMs:0}));});
+      const textarea=()=>renderer.root.findByType('textarea');
+      act(()=>textarea().props.onChange({target:{value:'Sent message'}}));
+      const sendButton=renderer.root.findAllByType('button').find(button=>button.children.includes('Send'));
+      act(()=>{sending=sendButton.props.onClick();});
+      assert.equal(textarea().props.value,'');
+      // A draft typed while waiting must never be overwritten by a failing prior turn.
+      act(()=>textarea().props.onChange({target:{value:'Next draft'}}));
+      await act(async()=>{
+        if(outcome==='network-error') rejectFetch(new TypeError('network disconnected'));
+        else resolveFetch(new Response(outcome==='stream-error'
+          ? 'data: {"error":"upstream failure","done":true}\n\n'
+          : 'data: {"done":true}\n\n'));
+        await sending;
+      });
+      assert.equal(textarea().props.value,'Next draft');
+      if(outcome!=='success') assert.ok(text(renderer).includes('alert'));
+    } finally {if(renderer)act(()=>renderer.unmount());}
+    // Also verify an untouched empty input stays empty after the error.
+    setupGlobals();
+    let emptyRenderer, emptySending;
+    globalThis.fetch=async()=>new Response('data: {"error":"failed","done":true}\n\n');
+    try {
+      act(()=>{emptyRenderer=TestRenderer.create(React.createElement(Chat));});
+      act(()=>emptyRenderer.root.findByType('textarea').props.onChange({target:{value:'Original text'}}));
+      await act(async()=>{
+        emptySending=emptyRenderer.root.findAllByType('button').find(button=>button.children.includes('Send')).props.onClick();
+        await emptySending;
+      });
+      assert.equal(emptyRenderer.root.findByType('textarea').props.value,'');
+    } finally {if(emptyRenderer)act(()=>emptyRenderer.unmount());}
+  }
+  globalThis.fetch=previousFetch;
+});
