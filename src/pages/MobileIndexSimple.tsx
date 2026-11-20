@@ -120,11 +120,10 @@ const MobileIndexSimple = () => {
                 className="rounded-lg border border-border bg-card/60 p-4 shadow-sm"
               >
                 <div className="flex items-start gap-3">
-                  <img
-                    src={experience.logoSrc}
-                    alt={experience.logoAlt}
-                    className="w-12 h-12 rounded bg-background object-contain p-1"
-                  />
+                  <div className="flex flex-col gap-2 shrink-0">
+                    <img src={experience.logoSrc} alt={experience.logoAlt} className="w-12 h-12 rounded bg-background object-contain p-1" />
+                    {experience.additionalLogos?.map(logo => <img key={logo.src} src={logo.src} alt={logo.alt} className="w-12 h-12 rounded bg-background object-contain p-1" />)}
+                  </div>
                   <div className="flex-1 space-y-1">
                     <h3 className="text-base font-semibold text-terminal-cyan">
                       {experience.role}, {experience.organization}
@@ -139,6 +138,12 @@ const MobileIndexSimple = () => {
                     <li key={bullet}>- {bullet}</li>
                   ))}
                 </ul>
+                <div className="mt-3 space-y-2 text-sm">
+                  {experience.relatedPublications?.map(id => {
+                    const paper = publications.find(item => item.id === id);
+                    return paper ? <div key={id}><a href={paper.url} target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary">{paper.title}</a></div> : null;
+                  })}
+                </div>
               </article>
             ))}
           </div>

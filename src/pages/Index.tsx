@@ -279,7 +279,7 @@ const Index = () => {
           Neel's Terminal
         </h1>
         <p className="text-muted-foreground text-xs md:text-sm">
-          Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Previously Lyft & Shopify · Research @ UHN
+          Sohail (Neel) Sarkar • Applied Math & CS @ U of T • Previously Lyft & Shopify · AI & Statistics Research @ UHN + Vector
         </p>
       </header>
 

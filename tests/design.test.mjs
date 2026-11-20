@@ -57,6 +57,15 @@ test('Terminal about reveals in stages and latest projects retain animated skill
     advance(clock,4000);
     assert.ok(text(renderer).includes('Lyft'));
     assert.ok(text(renderer).includes('Shopify'));
+    act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cat research.txt'})); });
+    advance(clock,4000);
+    assert.ok(text(renderer).includes('AI & Statistics Researcher'));
+    assert.ok(text(renderer).includes('Vector Institute'));
+    assert.ok(text(renderer).includes('Statistical imaging'));
+    assert.ok(text(renderer).includes('LLM evaluation'));
+    assert.ok(text(renderer).includes('Computational genomics'));
+    assert.ok(renderer.root.findAllByType('img').some(img=>img.props.src==='/vector_institute_logo.jpeg'));
+    for (const id of ['2610.23912','2609.40190','2611.01461']) assert.ok(renderer.root.findAllByType('a').some(link=>link.props.href===`https://arxiv.org/abs/${id}`));
     act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cat publications.txt'})); });
     advance(clock,4000);
     assert.ok(text(renderer).includes('2611.01461'));

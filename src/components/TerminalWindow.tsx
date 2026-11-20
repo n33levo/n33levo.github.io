@@ -544,7 +544,7 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               </TypewriterEffect>
               <div className="space-y-1">
                 <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
-                  <div>▸ Research at PMCC AI Lab, UHN. Previously Applied AI at <a href="https://www.lyft.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Lyft</a>, Applied ML at <a href="https://www.shopify.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Shopify</a>, and Applied Scientist at Sigma Squared.</div>
+                  <div>▸ AI & Statistics Researcher at PMCC AI Lab, UHN, and Vector Institute. Previously Applied AI at <a href="https://www.lyft.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Lyft</a>, Applied ML at <a href="https://www.shopify.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Shopify</a>, and Applied Scientist at Sigma Squared.</div>
                 </TypewriterEffect>
                 <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                   <div>▸ Into NLP, proofs, automation, modelling, compression and optimization</div>
@@ -669,7 +669,10 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
               <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}><div className="text-primary font-semibold">Research</div></TypewriterEffect>
               {research.map(experience => (
                 <div key={experience.organization} className="flex items-start space-x-3">
-                  <ImageLoader src={experience.logoSrc} alt={experience.logoAlt} className="w-12 h-12 rounded object-contain bg-white p-1" />
+                  <div className="flex flex-col gap-2 shrink-0">
+                    <ImageLoader src={experience.logoSrc} alt={experience.logoAlt} className="w-12 h-12 rounded object-contain bg-white p-1" />
+                    {experience.additionalLogos?.map(logo => <ImageLoader key={logo.src} src={logo.src} alt={logo.alt} className="w-12 h-12 rounded object-contain bg-white p-1" />)}
+                  </div>
                   <div className="flex-1">
                     <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
                       <div className="text-terminal-cyan font-semibold">{experience.role}, {experience.organization}</div>
@@ -677,6 +680,14 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
                     </TypewriterEffect>
                     <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
                       {experience.bullets.map(bullet => <div key={bullet} className="ml-4 mt-1 text-sm">- {highlightMetrics(bullet)}</div>)}
+                    </TypewriterEffect>
+                    <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                      <div className="ml-4 mt-2 space-y-1 text-sm">
+                        {experience.relatedPublications?.map(id => {
+                          const paper = publications.find(item => item.id === id);
+                          return paper ? <div key={id}><a href={paper.url} target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary">{paper.title}</a></div> : null;
+                        })}
+                      </div>
                     </TypewriterEffect>
                   </div>
                 </div>

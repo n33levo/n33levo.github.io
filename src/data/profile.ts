@@ -15,6 +15,8 @@ export interface ExperienceItem {
   bullets: string[];
   logoSrc: string;
   logoAlt: string;
+  additionalLogos?: { src: string; alt: string }[];
+  relatedPublications?: string[];
 }
 
 export interface EducationItem {
@@ -51,7 +53,7 @@ export const aboutContent = {
   preludeHeading: "A bit about me:",
   highlights: [
     {
-      text: "▸ Research at PMCC AI Lab, UHN · Previously Applied AI at Lyft, Applied ML at Shopify, and Applied Scientist at Sigma Squared",
+      text: "▸ AI & Statistics Researcher at PMCC AI Lab, UHN, and Vector Institute · Previously Applied AI at Lyft, Applied ML at Shopify, and Applied Scientist at Sigma Squared",
     },
     {
       text: "▸ Into NLP, proofs, automation, modelling, compression and optimization",

@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-11-19",
-  "source": "Resumes.pdf supplied by Neel; publication metadata checked against arXiv",
+  "updatedAt": "2026-11-20",
+  "source": "Resumes.pdf; current role and UHN/Vector affiliations corrected by Neel on 2026-11-20; research scope and publication affiliations checked against arXiv papers.",
   "identity": {
     "name": "Sohail (Neel) Sarkar",
     "preferredName": "Neel",
@@ -8,7 +8,7 @@
     "email": "sohail.sarkar@utoronto.ca",
     "website": "https://n33levo.github.io",
     "scholar": "https://scholar.google.ca/citations?user=anIa6FYAAAAJ&hl=en",
-    "summary": "Applied mathematics and computer science student at the University of Toronto. Previously Applied AI at Lyft, Applied ML at Shopify, and Applied Scientist at Sigma Squared. Research at the PMCC AI Lab, University Health Network; preprints spanning geometry, quantum learning, statistical evaluation, imaging, and genomics.",
+    "summary": "AI & Statistics Researcher at the PMCC AI Lab, University Health Network, and Vector Institute. Applied mathematics and computer science student at the University of Toronto. Previously Applied AI at Lyft, Applied ML at Shopify, and Applied Scientist at Sigma Squared. Research spans statistical imaging, reliable LLM evaluation, and computational genomics, alongside sole-authored work in geometry and quantum learning.",
     "interests": [
       "Machine learning",
       "Mathematical proofs",
@@ -17,6 +17,11 @@
       "Classical guitar",
       "Camus, Dostoevsky, and Ruskin Bond",
       "Snowy and Pluto"
+    ],
+    "currentRole": "AI & Statistics Researcher",
+    "affiliations": [
+      "PMCC AI Lab, Peter Munk Cardiac Centre, University Health Network",
+      "Vector Institute"
     ]
   },
   "experiences": [
@@ -94,14 +99,27 @@
   ],
   "research": [
     {
-      "role": "Volunteer Research Intern",
-      "organization": "PMCC AI Lab, University Health Network",
+      "role": "AI & Statistics Researcher",
+      "organization": "PMCC AI Lab, University Health Network · Vector Institute",
       "location": "Toronto, ON",
       "dates": "Nov 2025 – Present",
       "logoSrc": "/uhn_logo.png",
       "logoAlt": "University Health Network logo",
       "bullets": [
-        "Working under Dr. Shakuntala Baichoo and with Dr. Bo Wang on variant-to-gene discovery frameworks using distributed cloud infrastructure, probabilistic fine-mapping, and agentic functional reasoning."
+        "Statistical imaging: developed theory and likelihood methods for recovering junction geometry under unknown blur, with identifiability and minimax guarantees and evaluations on single-molecule microscopy and Chandra X-ray spectra.",
+        "LLM evaluation: developed simultaneous confidence bands and sample-efficient audits for test-time scaling curves, covering best-of-k selection, pass@k, and majority voting.",
+        "Computational genomics: co-developed an auditable agentic variant-to-gene pipeline with recorded evidence retrieval; benchmarked gene rankings and used ablations to distinguish recall of known associations from use of retrieved evidence."
+      ],
+      "additionalLogos": [
+        {
+          "src": "/vector_institute_logo.jpeg",
+          "alt": "Vector Institute logo"
+        }
+      ],
+      "relatedPublications": [
+        "2610.23912",
+        "2609.40190",
+        "2611.01461"
       ]
     }
   ],
@@ -129,7 +147,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2611.01461",
-      "summary": "Evaluates an auditable variant-to-gene pipeline against functional evidence. Ablations distinguish gains from recall of known gene associations from gains due to the retrieved evidence."
+      "summary": "Evaluates an auditable variant-to-gene pipeline against functional evidence. Ablations distinguish gains from recall of known gene associations from gains due to the retrieved evidence.",
+      "researchGroup": "PMCC AI Lab, University Health Network"
     },
     {
       "id": "2610.23912",
@@ -138,7 +157,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2610.23912",
-      "summary": "Studies recovery of junction arm counts and directions despite unknown Gaussian-mixture blur, with statistical guarantees and evaluations on microscopy localizations and X-ray spectra."
+      "summary": "Studies recovery of junction arm counts and directions despite unknown Gaussian-mixture blur, with statistical guarantees and evaluations on microscopy localizations and X-ray spectra.",
+      "researchGroup": "PMCC AI Lab, University Health Network"
     },
     {
       "id": "2610.14032",
@@ -147,7 +167,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2610.14032",
-      "summary": "Proves that smooth codimension-two submanifolds in dimensions n ≥ 6 contain affinely regular pentagons locally, addressing Problem 73 on Green’s list. Extends the argument to prime-sided polygons."
+      "summary": "Proves that smooth codimension-two submanifolds in dimensions n ≥ 6 contain affinely regular pentagons locally, addressing Problem 73 on Green’s list. Extends the argument to prime-sided polygons.",
+      "researchGroup": "University of Toronto"
     },
     {
       "id": "2609.40190",
@@ -156,7 +177,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2609.40190",
-      "summary": "Develops simultaneous confidence bands and sample-efficient audits for test-time scaling curves, accounting for budget selection and differences between benchmark questions."
+      "summary": "Develops simultaneous confidence bands and sample-efficient audits for test-time scaling curves, accounting for budget selection and differences between benchmark questions.",
+      "researchGroup": "PMCC AI Lab, University Health Network"
     },
     {
       "id": "2606.02655",
@@ -165,7 +187,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2606.02655",
-      "summary": "Introduces coherent swap regret against local CPTP deviations in quantum games, with an O(√(dT log d)) algorithm via entropic mirror ascent."
+      "summary": "Introduces coherent swap regret against local CPTP deviations in quantum games, with an O(√(dT log d)) algorithm via entropic mirror ascent.",
+      "researchGroup": "University of Toronto"
     },
     {
       "id": "2605.00918",
@@ -174,7 +197,8 @@
       "year": 2026,
       "status": "Preprint",
       "url": "https://arxiv.org/abs/2605.00918",
-      "summary": "Proves quantitative cases of the Big-Line–Big-Clique Conjecture in structured geometric regimes using cubic containers and dense orchard cores. The full conjecture remains open."
+      "summary": "Proves quantitative cases of the Big-Line–Big-Clique Conjecture in structured geometric regimes using cubic containers and dense orchard cores. The full conjecture remains open.",
+      "researchGroup": "University of Toronto"
     }
   ],
   "projects": [
