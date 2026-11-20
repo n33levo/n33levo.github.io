@@ -31,6 +31,6 @@ Compatible security updates plus patched Vite/router releases removed all high-s
 
 ## Original experience restoration
 
-Restored the pre-update design from commit `de2070e`: staged terminal output, image reveal, hover/scale/pulse skill chips, the full wget animation, traffic-light controls, chat bubbles/timestamps, auto-growing input, and 15/20ms streaming cadence. Chai and AI Rep route shells and greetings match the original, with configurable API URLs. Current facts, resume, research, and preprints are retained inside the original layouts. The webring stays removed as requested.
+Restored the pre-update design from commit `600ea805f5df`: staged terminal output, image reveal, hover/scale/pulse skill chips, the full wget animation, traffic-light controls, chat bubbles/timestamps, auto-growing input, and 15/20ms streaming cadence. Chai and AI Rep route shells and greetings match the original, with configurable API URLs. Current facts, resume, research, and preprints are retained inside the original layouts. The webring stays removed as requested.
 
 The new design regression tests run the original reveal timers and window actions, verify the animation helpers and CSS against the pre-update source, and check persona routing/greetings/pacing. Browser visual inspection remains unavailable because Chrome computer access was not approved in this session.

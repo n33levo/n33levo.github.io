@@ -28,10 +28,10 @@ function setupGlobals() {
 
 test('All original animation CSS and terminal animation helpers match the pre-update design', () => {
   for (const path of ['src/index.css','src/App.css']) {
-    assert.equal(readFileSync(path, 'utf8'), execFileSync('git',['show',`de2070e:${path}`],{encoding:'utf8'}));
+    assert.equal(readFileSync(path, 'utf8'), execFileSync('git',['show',`600ea805f5df:${path}`],{encoding:'utf8'}));
   }
   const current = readFileSync('src/components/TerminalWindow.tsx','utf8');
-  const original = execFileSync('git',['show','de2070e:src/components/TerminalWindow.tsx'],{encoding:'utf8'});
+  const original = execFileSync('git',['show','600ea805f5df:src/components/TerminalWindow.tsx'],{encoding:'utf8'});
   const section = source => source.slice(source.indexOf('// TypewriterEffect component'),source.indexOf('interface TerminalWindowProps'));
   assert.equal(section(current).replace(/[ \t]+$/gm, ""),section(original).replace(/[ \t]+$/gm, ""));
 });
