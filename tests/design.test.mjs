@@ -1,0 +1,142 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import React from 'react';
+import TestRenderer, { act } from 'react-test-renderer';
+import FakeTimers from '@sinonjs/fake-timers';
+import { createServer } from 'vite';
+import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+
+const vite = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
+const { default: Terminal } = await vite.ssrLoadModule('/src/components/TerminalWindow.tsx');
+const { default: Chat } = await vite.ssrLoadModule('/src/components/ChatWindow.tsx');
+const { default: Index } = await vite.ssrLoadModule('/src/pages/Index.tsx');
+const { default: RepPage } = await vite.ssrLoadModule('/src/pages/Chai.tsx');
+const { default: ChaiPage } = await vite.ssrLoadModule('/src/pages/ChaiClassic.tsx');
+const { MemoryRouter } = await import('react-router-dom');
+await vite.close();
+
+function text(renderer) { return JSON.stringify(renderer.toJSON()); }
+function advance(clock, milliseconds) {
+  for (let elapsed = 0; elapsed < milliseconds; elapsed += 100) act(() => { clock.tick(100); });
+}
+function setupGlobals() {
+  const values = new Map();
+  globalThis.sessionStorage = { getItem: k => values.get(k) ?? null, setItem: (k,v) => values.set(k,v) };
+  globalThis.document = { querySelector: () => null };
+}
+
+test('All original animation CSS and terminal animation helpers match the pre-update design', () => {
+  for (const path of ['src/index.css','src/App.css']) {
+    assert.equal(readFileSync(path, 'utf8'), execFileSync('git',['show',`de2070e:${path}`],{encoding:'utf8'}));
+  }
+  const current = readFileSync('src/components/TerminalWindow.tsx','utf8');
+  const original = execFileSync('git',['show','de2070e:src/components/TerminalWindow.tsx'],{encoding:'utf8'});
+  const section = source => source.slice(source.indexOf('// TypewriterEffect component'),source.indexOf('interface TerminalWindowProps'));
+  assert.equal(section(current).replace(/[ \t]+$/gm, ""),section(original).replace(/[ \t]+$/gm, ""));
+});
+
+test('Terminal about reveals in stages and latest projects retain animated skill chips', () => {
+  const clock = FakeTimers.install({toFake:['setTimeout','clearTimeout','setInterval','clearInterval','Date']});
+  let renderer;
+  try {
+    const props = { onCommandExecuted: () => {} };
+    act(() => { renderer=TestRenderer.create(React.createElement(Terminal,props)); });
+    act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cat about.txt'})); });
+    assert.ok(!text(renderer).includes('sold my soul'));
+    advance(clock,3000);
+    assert.ok(text(renderer).includes('sold my soul'));
+    assert.ok(text(renderer).includes('Snowy and Pluto'));
+    assert.ok(renderer.root.findAllByType('img').some(img=>img.props.src==='/profilepicture.png .png'));
+    act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cd projects'})); });
+    advance(clock,4000);
+    assert.ok(text(renderer).includes('ComputerOS'));
+    assert.ok(text(renderer).includes('hover:scale-110'));
+    assert.ok(text(renderer).includes('hover:animate-pulse'));
+    act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cat experience.txt'})); });
+    advance(clock,4000);
+    assert.ok(text(renderer).includes('Lyft'));
+    assert.ok(text(renderer).includes('Shopify'));
+    act(() => { renderer.update(React.createElement(Terminal,{...props,commandToExecute:'cat publications.txt'})); });
+    advance(clock,4000);
+    assert.ok(text(renderer).includes('2611.01461'));
+  } finally { if(renderer) act(()=>renderer.unmount()); clock.uninstall(); }
+});
+
+test('Desktop intro timing and minimize/maximize/restore interactions retain original window classes', () => {
+  setupGlobals();
+  const clock = FakeTimers.install({toFake:['setTimeout','clearTimeout','setInterval','clearInterval','Date']});
+  let renderer;
+  try {
+    act(()=>{renderer=TestRenderer.create(React.createElement(Index));});
+    advance(clock,2000);
+    assert.ok(text(renderer).includes('sold my soul'));
+    const windows=()=>renderer.root.findAll(n=>n.props['data-terminal-window']!==undefined);
+    let terminal=windows()[0];
+    act(()=>terminal.findByProps({title:'Maximize'}).props.onClick());
+    assert.equal(windows()[0].props.className.includes('lg:col-span-1'),true);
+    act(()=>windows()[0].findByProps({title:'Maximize'}).props.onClick());
+    assert.equal(windows()[0].props.className.includes('lg:col-span-2'),true);
+    act(()=>windows()[0].findByProps({title:'Minimize'}).props.onClick());
+    assert.equal(windows()[0].props.className.includes('minimized-window'),true);
+    act(()=>windows()[0].findByProps({title:'Minimize'}).props.onClick());
+    assert.equal(windows()[0].props.className.includes('minimized-window'),false);
+    const open=renderer.root.findAllByType('button').find(b=>b.findAllByType('div').some(child => child.children.includes('Open chai chat')));
+    act(()=>open.props.onClick());
+    advance(clock,500);
+    assert.ok(text(renderer).includes('your chat buddy'));
+    const chatWindow=()=>renderer.root.findAll(n=>n.props['data-chat-window']!==undefined)[0];
+    act(()=>chatWindow().findByProps({title:'Minimize'}).props.onClick());
+    assert.ok(chatWindow().props.className.includes('minimized-window'));
+    act(()=>chatWindow().findByProps({title:'Minimize'}).props.onClick());
+    assert.ok(!chatWindow().props.className.includes('minimized-window'));
+    act(()=>chatWindow().findByProps({title:'Maximize'}).props.onClick());
+    assert.ok(chatWindow().props.className.includes('lg:col-span-1'));
+    act(()=>chatWindow().findByProps({title:'Close'}).props.onClick());
+    advance(clock,500);
+    assert.equal(chatWindow(),undefined);
+  } finally {if(renderer)act(()=>renderer.unmount());clock.uninstall();}
+});
+
+test('Chai and AI Rep keep their original greetings, separate endpoints, pacing, and chat styling', () => {
+  setupGlobals();
+  for (const [Page,title,endpoint,greeting,delay] of [
+    [ChaiPage,'chai','/chat/stream','your chat buddy',20],
+    [RepPage,'ai rep','/recruiter/stream',"Neel's AI representative",15],
+  ]) {
+    let renderer;
+    act(()=>{renderer=TestRenderer.create(React.createElement(MemoryRouter,null,React.createElement(Page)));});
+    try {
+      const chat=renderer.root.findByType(Chat);
+      assert.equal(chat.props.title,title);
+      assert.ok(chat.props.endpoint.endsWith(endpoint));
+      assert.equal(chat.props.streamingDelayMs,delay);
+      assert.ok(text(renderer).includes(greeting));
+      assert.ok(text(renderer).includes('max-w-xs px-3 py-2 rounded-lg'));
+      assert.ok(text(renderer).includes('text-xs opacity-70 mt-1'));
+      assert.ok(!text(renderer).includes('New chat'));
+      assert.equal(renderer.root.findByType('textarea').props.rows,1);
+    } finally {act(()=>renderer.unmount());}
+  }
+});
+
+
+test('The original wget progress animation completes and requests exactly one resume download', () => {
+  setupGlobals();
+  let downloads=0;
+  globalThis.document.createElement=()=>({ click:()=>downloads++ });
+  globalThis.document.body={appendChild:()=>{},removeChild:()=>{}};
+  const clock=FakeTimers.install({toFake:['setTimeout','clearTimeout','setInterval','clearInterval','Date']});
+  let renderer;
+  try {
+    const props={onCommandExecuted:()=>{}};
+    act(()=>{renderer=TestRenderer.create(React.createElement(Terminal,props));});
+    act(()=>renderer.update(React.createElement(Terminal,{...props,commandToExecute:'wget resume'})));
+    advance(clock,6000);
+    assert.ok(text(renderer).includes('100%'));
+    assert.ok(text(renderer).includes('Resume downloaded successfully!'));
+    assert.equal(downloads,1);
+    advance(clock,2000);
+    assert.equal(downloads,1);
+  } finally {if(renderer)act(()=>renderer.unmount());clock.uninstall();}
+});

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { PortfolioSection } from "@/components/PortfolioSection";
-import { projects } from "@/data/profile";
+import { education, experiences, research, projects, publications, identity, socials } from "@/data/profile";
 
 interface CommandOutput {
   command: string;
@@ -150,7 +149,7 @@ interface TerminalWindowProps {
 const directoryStructure = {
   "about.txt": "file",
   "projects/": {
-    _items: projects.length,
+    _items: 4,
     ...Object.fromEntries(projects.map(project => [project.id + ".txt", "file"])),
   },
   "Applications/": {
@@ -185,7 +184,12 @@ const directoryStructure = {
   },
 };
 
-const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smooth?: boolean, force?: boolean) => void; key?: string }) => {
+// Keep the original green metric accents when rendering current resume facts.
+const highlightMetrics = (text: string) => text.split(/(\d+(?:\.\d+)?(?:%| bps|×|M\+|ms))/g).map((part, index) =>
+  index % 2 ? <span key={index} className="text-terminal-green">{part}</span> : part
+);
+
+const WgetProgressAnimation = ({ scrollToBottom }: { scrollToBottom?: (smooth?: boolean, force?: boolean) => void }) => {
   const [progress, setProgress] = useState(0);
   const [step, setStep] = useState(0);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
@@ -209,7 +213,7 @@ const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smoo
     setStep(0);
     setShowFinalMessage(false);
     downloadTriggeredRef.current = false;
-  }, [key]);
+  }, []);
 
   useEffect(() => {
     const steps = [
@@ -265,17 +269,17 @@ const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smoo
     <div className="space-y-1 font-mono text-sm">
       {step >= 1 && (
         <>
-          <div>Preparing resume.pdf</div>
-          <div>Resume updated November 2026</div>
+          <div>--2026-11-19 12:34:56--  https://n33levo.github.io/resume.pdf</div>
+          <div>Resolving n33levo.github.io... 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153</div>
         </>
       )}
       {step >= 2 && (
-        <div>Preparing your download…</div>
+        <div>Connecting to n33levo.github.io|185.199.108.153|:443... connected.</div>
       )}
       {step >= 3 && (
         <>
-          <div>Opening the resume file…</div>
-          <div>Format: PDF</div>
+          <div>HTTP request sent, awaiting response... 200 OK</div>
+          <div>Length: 168KB [application/pdf]</div>
         </>
       )}
       {step >= 4 && (
@@ -286,7 +290,7 @@ const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smoo
       )}
       {step >= 5 && (
         <div className="text-terminal-cyan">
-          {generateProgressBar(progress)}
+          {generateProgressBar(progress)} 168KB  --.--KB/s    in 0.1s
         </div>
       )}
       {showFinalMessage && (
@@ -294,7 +298,7 @@ const WgetProgressAnimation = ({ scrollToBottom, key }: { scrollToBottom?: (smoo
           <div></div>
           <div>'sohail_sarkar_resume.pdf' saved</div>
           <div></div>
-          <div className="text-primary"> Resume download requested.</div>
+          <div className="text-primary"> Resume downloaded successfully!</div>
         </>
       )}
     </div>
@@ -515,19 +519,193 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         break;
 
       case "cat about.txt":
-        output = <PortfolioSection section="about" onCommand={executeCommand} />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-2">
+              <div className="flex items-center space-x-3 mb-4">
+                <ImageLoader
+                  src="/profilepicture.png .png"
+                  alt="Sohail (Neel) Sarkar"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-primary"
+                  delay={200}
+                />
+                <div>
+                  <TypewriterEffect delay={30}>
+                    <div className="text-primary font-semibold">Sohail (Neel) Sarkar</div>
+                    <div className="text-sm text-muted-foreground">Profile Picture</div>
+                  </TypewriterEffect>
+                </div>
+              </div>
+              <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                <div>I am an Applied Maths student at the <a href="https://www.utoronto.ca/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">University of Toronto</a> — I wanted to study pure math, but somewhere between proofs and pragmatism, I sold my soul to the compiler.</div>
+              </TypewriterEffect>
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="mt-3 mb-2 text-primary font-semibold">A bit about me:</div>
+              </TypewriterEffect>
+              <div className="space-y-1">
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div>▸ Research at PMCC AI Lab, UHN. Previously Applied AI at <a href="https://www.lyft.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Lyft</a>, Applied ML at <a href="https://www.shopify.com/" target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Shopify</a>, and Applied Scientist at Sigma Squared.</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div>▸ Into NLP, proofs, automation, modelling, compression and optimization</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div>▸ Classically trained guitarist — Bach wrote better counterpoint than most coders write loops.</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div>▸ Avid reader of Camus, Dostoevsky, and Ruskin Bond</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom} onComplete={() => {
+                  setTimeout(() => scrollToBottom(), 100);
+                }}>
+                    <div>▸ Obsessed with investing, grew portfolio by <span className="text-terminal-red font-semibold">~490%</span> in <span className="text-terminal-red font-semibold">2.5 years</span>.</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                  <div>▸ Proud dog brother to <button onClick={() => executeCommand('ls ./snowyandpluto/')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">Snowy and Pluto</button>, who debug my life better than I do</div>
+                </TypewriterEffect>
+                <TypewriterEffect delay={25} scrollToBottom={scrollToBottom} onComplete={() => {
+                  setTimeout(() => scrollToBottom(), 100);
+                }}>
+                  <div>▸ Perpetually caffeinated, occasionally philosophical</div>
+                </TypewriterEffect>
+              </div>
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
       case "cd projects":
-        output = <PortfolioSection section="projects" onCommand={executeCommand} />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-8">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">Projects</div>
+              </TypewriterEffect>
+
+              <div className="p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground text-sm">
+                    I mostly code to make my life easier — automating the boring stuff before it automates me.
+                    Not many public repos (yet), because I build faster than I document, and most development
+                    this past year has lived in private, company-owned repos via corporate GitHub accounts (No access to them anymore).
+                    <br /><br />
+                    <strong className="text-terminal-green">But something huge is in the works — expect a push soon. <a href="https://n33levo.github.io/6ixsense/" target="_blank" rel="noopener noreferrer" className="text-terminal-cyan underline hover:text-primary cursor-pointer">6ixsense.com</a></strong>
+                  </div>
+                </TypewriterEffect>
+              </div>
+
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-sm text-muted-foreground mt-2 mb-4">Some of my latest work:</div>
+              </TypewriterEffect>
+
+              {projects.map((project) => (
+                <div className="mt-6" key={project.id}>
+                  <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                    <div className="text-terminal-cyan font-semibold">
+                      {project.href ? <a href={project.href} target="_blank" rel="noopener noreferrer" className="hover:underline">{project.filename}</a> : project.filename}
+                    </div>
+                  </TypewriterEffect>
+                  <div className="ml-4 flex flex-wrap mb-3">
+                    {project.technologies?.map(skill => <SkillItem key={skill} skill={skill} />)}
+                  </div>
+                  <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                    {project.description.map(line => <div key={line} className="text-muted-foreground ml-4">→ {highlightMetrics(line)}</div>)}
+                  </TypewriterEffect>
+                </div>
+              ))}
+
+              <div className="mt-10 p-3 border-l-4 border-terminal-cyan bg-muted/30 rounded-r">
+                <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                  <div className="text-muted-foreground text-sm">
+                    Check out my <button onClick={() => executeCommand('cat archives/old_projects.txt')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">archived projects</button> for personal projects from earlier work.
+                  </div>
+                </TypewriterEffect>
+              </div>
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
       case "cat experience.txt":
-        output = <PortfolioSection section="experience" onCommand={executeCommand} />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-3">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">Experience</div>
+              </TypewriterEffect>
+
+              {experiences.map(experience => (
+                <div key={experience.organization} className="flex items-start space-x-3">
+                  <ImageLoader src={experience.logoSrc} alt={experience.logoAlt} className="w-12 h-12 rounded object-contain bg-white p-1" />
+                  <div className="flex-1">
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold">{experience.role}, {experience.organization}</div>
+                      <div className="text-muted-foreground">{experience.location} — {experience.dates}</div>
+                    </TypewriterEffect>
+                    <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                      {experience.bullets.map(bullet => <div key={bullet} className="ml-4 mt-1 text-sm">- {highlightMetrics(bullet)}</div>)}
+                    </TypewriterEffect>
+                  </div>
+                </div>
+              ))}
+
+              <TypewriterEffect delay={30} onComplete={() => {
+                setTimeout(() => scrollToBottom(), 100);
+              }}>
+                <div className="mt-4 p-3 border-l-4 border-terminal-yellow bg-muted/30 rounded-r">
+                  <div className="text-terminal-yellow font-semibold">📁 More Experiences Available</div>
+                  <div className="text-sm mt-1">
+                    Check out my <button onClick={() => executeCommand('cat archives/old_experience.txt')} className="text-terminal-cyan underline hover:text-primary cursor-pointer">archived experiences</button> for additional work history and non-internship roles.
+                  </div>
+                </div>
+              </TypewriterEffect>
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
+
       case "cat research.txt":
-        output = <PortfolioSection section="research" />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-3">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}><div className="text-primary font-semibold">Research</div></TypewriterEffect>
+              {research.map(experience => (
+                <div key={experience.organization} className="flex items-start space-x-3">
+                  <ImageLoader src={experience.logoSrc} alt={experience.logoAlt} className="w-12 h-12 rounded object-contain bg-white p-1" />
+                  <div className="flex-1">
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold">{experience.role}, {experience.organization}</div>
+                      <div className="text-muted-foreground">{experience.location} — {experience.dates}</div>
+                    </TypewriterEffect>
+                    <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}>
+                      {experience.bullets.map(bullet => <div key={bullet} className="ml-4 mt-1 text-sm">- {highlightMetrics(bullet)}</div>)}
+                    </TypewriterEffect>
+                  </div>
+                </div>
+              ))}
+
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
       case "cat publications.txt":
-        output = <PortfolioSection section="publications" />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-6">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">Preprints & Research</div>
+                <a href={identity.scholar} target="_blank" rel="noopener noreferrer" className="text-terminal-green underline hover:text-primary">Google Scholar</a>
+              </TypewriterEffect>
+              {publications.map(paper => (
+                <div key={paper.id}>
+                  <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                    <div className="text-terminal-cyan font-semibold"><a href={paper.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{paper.title}</a></div>
+                    <div className="text-sm text-muted-foreground">{paper.authors} · {paper.year} · {paper.status} · arXiv:{paper.id}</div>
+                  </TypewriterEffect>
+                  <TypewriterEffect delay={20} scrollToBottom={scrollToBottom}><div className="ml-4 mt-1">→ {paper.summary}</div></TypewriterEffect>
+                </div>
+              ))}
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
       case "cat activities.txt":
         output = (
@@ -714,13 +892,148 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         break;
 
       case "ls ./skills/":
-        output = <PortfolioSection section="skills" onCommand={executeCommand} />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="border border-terminal-cyan rounded-md p-4 bg-card/50 space-y-4">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">./skills/</div>
+              </TypewriterEffect>
+
+              <div className="grid grid-cols-2 gap-6">
+                {/* Column 1 */}
+                <div className="space-y-4">
+                  {/* AI/ML */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">ai_ml/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="Agent SDKs" />
+                      <SkillItem skill="CUDA" />
+                      <SkillItem skill="Hugging Face" />
+                      <SkillItem skill="Keras" />
+                      <SkillItem skill="LangGraph" />
+                      <SkillItem skill="LlamaIndex" />
+                      <SkillItem skill="PyTorch" />
+                      <SkillItem skill="TensorFlow" />
+                      <SkillItem skill="Triton" />
+                      <SkillItem skill="vLLM" />
+                    </div>
+                  </div>
+
+                  {/* Databases */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">databases/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="MongoDB" />
+                      <SkillItem skill="MySQL" />
+                      <SkillItem skill="Neo4j" />
+                      <SkillItem skill="Pinecone" />
+                      <SkillItem skill="Postgres" />
+                    </div>
+                  </div>
+
+                  {/* DevTools */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">devtools/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="Cursor" />
+                      <SkillItem skill="Git" />
+                      <SkillItem skill="Kafka" />
+                      <SkillItem skill="Spark" />
+                      <SkillItem skill="VSCode" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 2 */}
+                <div className="space-y-4">
+                  {/* Frameworks */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">frameworks/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="AWS EC2" />
+                      <SkillItem skill="Docker" />
+                      <SkillItem skill="FastAPI" />
+                      <SkillItem skill="FastMCP" />
+                      <SkillItem skill="Flask" />
+                      <SkillItem skill="Kubernetes" />
+                      <SkillItem skill="Streamlit" />
+                    </div>
+                  </div>
+
+                  {/* Languages */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">languages/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="C/C++" />
+                      <SkillItem skill="Go" />
+                      <SkillItem skill="Java" />
+                      <SkillItem skill="JavaScript" />
+                      <SkillItem skill="Julia" />
+                      <SkillItem skill="Python" />
+                      <SkillItem skill="Ruby on Rails" />
+                      <SkillItem skill="Rust" />
+                      <SkillItem skill="SQL" />
+                      <SkillItem skill="TypeScript" />
+                    </div>
+                  </div>
+
+                  {/* Other */}
+                  <div>
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold mb-2">other/</div>
+                    </TypewriterEffect>
+                    <div className="ml-4 flex flex-wrap">
+                      <SkillItem skill="LaTeX" />
+                      <SkillItem skill="Power BI" />
+                      <SkillItem skill="ServiceNow" />
+                      <SkillItem skill="VBA" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AnimatedTerminalOutput>
+        );
+
         break;
       case "whereis socials":
-        output = <PortfolioSection section="socials" onCommand={executeCommand} />;
+        output = <div className="space-y-2">
+          <div className="text-primary font-semibold">Social Links</div>
+          {socials.map(social => <div key={social.label}><span className="text-terminal-cyan">{social.label}:</span> <a href={social.href} target={social.type === "external" ? "_blank" : undefined} rel={social.type === "external" ? "noopener noreferrer" : undefined} className="underline hover:text-primary">{social.value}</a></div>)}
+        </div>;
         break;
       case "cat education.txt":
-        output = <PortfolioSection section="education" onCommand={executeCommand} />;
+        output = (
+          <AnimatedTerminalOutput>
+            <div className="space-y-3">
+              <TypewriterEffect delay={30} scrollToBottom={scrollToBottom}>
+                <div className="text-primary font-semibold">Education</div>
+              </TypewriterEffect>
+
+              {education.map(edu => (
+                <div key={edu.institution} className="flex items-start space-x-3">
+                  <ImageLoader src={edu.logoSrc} alt={edu.logoAlt} className="w-12 h-12 rounded object-contain bg-white p-1" scrollToBottom={scrollToBottom} />
+                  <div className="flex-1">
+                    <TypewriterEffect delay={25} scrollToBottom={scrollToBottom}>
+                      <div className="text-terminal-cyan font-semibold">{edu.institution} — {edu.location}</div>
+                      <div className="text-muted-foreground">{edu.details}</div>
+                    </TypewriterEffect>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </AnimatedTerminalOutput>
+        );
         break;
       case "cat achievements.txt":
         output = (
@@ -831,9 +1144,14 @@ const TerminalWindow = ({ onCommandExecute, commandToExecute, onCommandExecuted,
         setHistoryIndex(-1);
         return;
       default:
-        if (lowerCmd === "chat" || lowerCmd.startsWith("chat ")) {
-          onCommandExecute?.("chat");
-          output = <div className="text-primary">Chai is open. Send your message in the chat window.</div>;
+        if (trimmedCmd.startsWith("chat ")) {
+          const message = cmd.substring(5);
+          output = (
+            <div className="space-y-2">
+              <div><span className="text-muted-foreground">You:</span> {message}</div>
+              <div><span className="text-primary"> AI:</span> hi</div>
+            </div>
+          );
         } else if (trimmedCmd === "") {
           return;
         } else {

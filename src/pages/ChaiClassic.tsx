@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { lazy } from "react";
-const ChatWindow = lazy(() => import("@/components/ChatWindow"));
+import ChatWindow from "@/components/ChatWindow";
 import { chatEndpoint } from "@/lib/chat";
 
 const CHAI_GREETING =
@@ -91,6 +90,7 @@ const ChaiClassic = () => {
             sessionPrefix="chai"
             placeholder="Type a message..."
             sendLabel="Send"
+            streamingDelayMs={20}
           />
         </div>
       </main>

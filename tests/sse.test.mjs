@@ -25,3 +25,15 @@ test('Non-200 detail is shown', async () => {
 test('Malformed events fail', async () => {
   await assert.rejects(readSSE(response([bytes('data: {broken}\n\n')]), () => {}), SyntaxError);
 });
+
+test('Paced rendering callbacks finish in order before the done event', async () => {
+  const order = [];
+  await readSSE(response([bytes('data: {"content":"one"}\n\ndata: {"content":"two"}\n\ndata: {"done":true}\n\n')]), async event => {
+    if (event.content) {
+      order.push(`start:${event.content}`);
+      await Promise.resolve();
+      order.push(`end:${event.content}`);
+    } else order.push('done');
+  });
+  assert.deepEqual(order, ['start:one', 'end:one', 'start:two', 'end:two', 'done']);
+});

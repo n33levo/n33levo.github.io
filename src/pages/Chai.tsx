@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { lazy } from "react";
-const ChatWindow = lazy(() => import("@/components/ChatWindow"));
+import ChatWindow from "@/components/ChatWindow";
 import { chatEndpoint } from "@/lib/chat";
 
 const Chai = () => {
@@ -83,11 +82,12 @@ const Chai = () => {
             onMinimize={handleMinimize}
             onMaximize={handleMaximize}
             title="ai rep"
-            initialMessage="Hi — I'm Neel's AI representative. I can answer questions about his work at Lyft and Shopify, research, preprints, and projects. What would you like to know?"
+            initialMessage="Hi — I'm Neel's AI representative. I can answer questions about his experience and help you schedule a meeting with him. What would you like to know?"
             endpoint={chatEndpoint("recruiter")}
             sessionPrefix="ai-rep"
-            placeholder="Ask about experience, research, or projects…"
+            placeholder="Ask about Neel or book a meeting..."
             sendLabel="Ask"
+            streamingDelayMs={15}
           />
         </div>
       </main>

@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import TerminalWindow from "@/components/TerminalWindow";
 import CommandMenu from "@/components/CommandMenu";
-import { lazy } from "react";
-const ChatWindow = lazy(() => import("@/components/ChatWindow"));
+import ChatWindow from "@/components/ChatWindow";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const Index = () => {
@@ -21,14 +20,14 @@ const Index = () => {
     isTerminalMinimized: boolean;
   } | null>(null);
 
-  // Run once per mount, after the timer fires; StrictMode cleanup must not consume it.
+  // Keep the original intro delay and run once when the terminal is ready.
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!hasAutoExecutedRef.current) {
         hasAutoExecutedRef.current = true;
-        setCommandToExecute("cat about.txt");
+        setCommandToExecute('cat about.txt');
       }
-    }, 100);
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
 
